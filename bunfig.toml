@@ -1,0 +1,7 @@
+[install]
+exact = true
+# isolated es como pnpm, hoisted como npm
+linker = "hoisted"
+
+[install.lockfile]
+# save = false
