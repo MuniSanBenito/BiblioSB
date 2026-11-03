@@ -1,0 +1,11 @@
+/* La etiqueta queda pegada al campo; el aire entre grupos lo pone el formulario. */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.label {
+  font: inherit;
+  font-weight: 700;
+}

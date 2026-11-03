@@ -1,14 +1,42 @@
-import { createFileRoute } from "@tanstack/react-router";
+// Ingreso del personal. Con sesión activa sigue al panel.
+import { signInWithEmail } from "#/lib/firebase/sign-in-with-email";
+import { waitForAuthUser } from "#/lib/firebase/wait-for-auth-user";
+import { LoginForm } from "#/ui/organisms/login-form/login-form";
+import { LoginPage } from "#/ui/templates/login-page/login-page";
+import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/")({ component: Home });
+export const Route = createFileRoute("/")({
+  ssr: false,
+  head: () => ({
+    meta: [
+      { title: "Ingresar | Biblioteca municipal de San Benito" },
+      {
+        name: "description",
+        content: "Ingreso del personal a la biblioteca municipal de San Benito, Entre Ríos.",
+      },
+      { name: "robots", content: "index, follow" },
+    ],
+  }),
+  beforeLoad: async () => {
+    const user = await waitForAuthUser();
+    if (user) {
+      throw redirect({ to: "/panel", replace: true });
+    }
+  },
+  component: Home,
+});
 
 function Home() {
+  const navigate = useNavigate();
+
+  async function handleSignIn(email: string, password: string) {
+    await signInWithEmail(email, password);
+    await navigate({ to: "/panel", replace: true });
+  }
+
   return (
-    <div className="p-8">
-      <h1 className="text-4xl font-bold">Welcome to TanStack Start</h1>
-      <p className="mt-4 text-lg">
-        Edit <code>src/routes/index.tsx</code> to get started.
-      </p>
-    </div>
+    <LoginPage>
+      <LoginForm onSubmit={handleSignIn} />
+    </LoginPage>
   );
 }

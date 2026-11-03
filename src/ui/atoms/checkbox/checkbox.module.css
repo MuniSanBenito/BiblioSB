@@ -1,0 +1,17 @@
+/* La caja queda chica; la fila entera llega a 44px para poder tocarla. */
+.label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding-block: 0.5rem;
+  font: inherit;
+  cursor: pointer;
+}
+
+.input {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: 0;
+  accent-color: var(--color-forest);
+}

@@ -1,0 +1,17 @@
+/* Acción principal: verde del pie municipal, alto mínimo para el dedo. */
+.button {
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.75rem 1rem;
+  border: 0;
+  border-radius: 0.375rem;
+  background: var(--color-forest);
+  color: var(--color-paper);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.button:disabled {
+  cursor: wait;
+}
