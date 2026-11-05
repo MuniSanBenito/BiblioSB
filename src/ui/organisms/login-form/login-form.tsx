@@ -2,8 +2,9 @@
 import { Button } from "#/ui/atoms/button/button";
 import { PasswordField } from "#/ui/molecules/password-field/password-field";
 import { TextField } from "#/ui/molecules/text-field/text-field";
+import { Toast } from "#/ui/molecules/toast/toast";
 import { FirebaseError } from "firebase/app";
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useState, type SubmitEvent } from "react";
 import styles from "./login-form.module.css";
 
 const errorId = "login-error";
@@ -17,15 +18,8 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
-  const alertRef = useRef<HTMLParagraphElement>(null);
 
-  useEffect(() => {
-    if (error) {
-      alertRef.current?.focus();
-    }
-  }, [error]);
-
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
     if (pending) return;
 
@@ -77,11 +71,7 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
         ariaInvalid={Boolean(error)}
         ariaDescribedBy={error ? errorId : undefined}
       />
-      {error ? (
-        <p ref={alertRef} id={errorId} className={styles.error} role="alert" tabIndex={-1}>
-          {error}
-        </p>
-      ) : null}
+      {error ? <Toast id={errorId} message={error} onClose={() => setError("")} /> : null}
       <Button disabled={pending}>{pending ? "Ingresando" : "Ingresar"}</Button>
     </form>
   );

@@ -1,0 +1,36 @@
+/* Flotante: no ocupa lugar en el flujo, así que la página no se mueve. */
+.toast {
+  position: fixed;
+  z-index: 10;
+  top: max(1rem, env(safe-area-inset-top));
+  left: 50%;
+  translate: -50% 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  box-sizing: border-box;
+  width: min(24rem, calc(100% - 2rem));
+  padding: 0.75rem 0.75rem 0.75rem 1rem;
+  background: var(--color-forest);
+  color: var(--color-paper);
+}
+
+.message {
+  flex: 1;
+  margin: 0;
+  font-weight: 700;
+}
+
+.close {
+  flex: none;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  padding: 0.5rem 0.75rem;
+  border: 2px solid var(--color-paper);
+  border-radius: 0.375rem;
+  background: transparent;
+  color: var(--color-paper);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}

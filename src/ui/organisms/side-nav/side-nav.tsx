@@ -1,5 +1,8 @@
 // Secciones del panel. Hoy solo existe Inicio.
-import { Link } from "@tanstack/react-router";
+import { signOutStaff } from "#/lib/firebase/sign-out";
+import { Toast } from "#/ui/molecules/toast/toast";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
 import styles from "./side-nav.module.css";
 
 export const panelMenuId = "panel-menu";
@@ -10,6 +13,23 @@ type SideNavProps = {
 };
 
 export function SideNav({ hidden, onNavigate }: SideNavProps) {
+  const navigate = useNavigate();
+  const [pending, setPending] = useState(false);
+  const [error, setError] = useState("");
+
+  async function handleSignOut() {
+    if (pending) return;
+    setError("");
+    setPending(true);
+    try {
+      await signOutStaff();
+      await navigate({ to: "/", replace: true });
+    } catch {
+      setError("No se pudo cerrar la sesión. Volvé a intentar.");
+      setPending(false);
+    }
+  }
+
   return (
     <aside id={panelMenuId} className={styles.aside} hidden={hidden}>
       <div>
@@ -31,6 +51,17 @@ export function SideNav({ hidden, onNavigate }: SideNavProps) {
           </li>
         </ul>
       </nav>
+      <div className={styles.signOut}>
+        {error ? <Toast message={error} onClose={() => setError("")} /> : null}
+        <button
+          type="button"
+          className={styles.signOutButton}
+          disabled={pending}
+          onClick={handleSignOut}
+        >
+          {pending ? "Cerrando sesión" : "Cerrar sesión"}
+        </button>
+      </div>
     </aside>
   );
 }
