@@ -1,6 +1,7 @@
 // El panel es solo para admin y bibliotecaria. Sin rol, vuelve al ingreso.
 import { readStaffRole } from "#/lib/firebase/role";
 import { waitForAuthUser } from "#/lib/firebase/wait-for-auth-user";
+import { PanelLayout } from "#/ui/templates/panel-layout/panel-layout";
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/panel")({
@@ -33,5 +34,9 @@ export const Route = createFileRoute("/panel")({
 });
 
 function RouteComponent() {
-  return <Outlet />;
+  return (
+    <PanelLayout>
+      <Outlet />
+    </PanelLayout>
+  );
 }

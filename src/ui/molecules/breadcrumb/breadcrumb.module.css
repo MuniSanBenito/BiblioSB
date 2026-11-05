@@ -1,0 +1,36 @@
+/* La ruta actual va en verde. La barra separa los pasos con una barra. */
+.nav {
+  min-width: 0;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+}
+
+.item + .item::before {
+  content: "/";
+  color: var(--color-forest);
+}
+
+.link {
+  color: var(--color-ink);
+  text-decoration: none;
+}
+
+.current {
+  color: var(--color-forest);
+  font-weight: 700;
+}

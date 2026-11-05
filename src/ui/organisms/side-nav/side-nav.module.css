@@ -1,0 +1,56 @@
+/* Lomo verde del panel. La página actual se marca con la lima. */
+.aside {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  box-sizing: border-box;
+  width: min(16rem, 86vw);
+  min-height: 100%;
+  padding: 1.25rem 1rem;
+  background: var(--color-forest);
+  color: var(--color-paper);
+}
+
+.place {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 800;
+  line-height: 0.95;
+}
+
+.service {
+  margin: 0.35rem 0 0;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0.5rem 0.75rem;
+  border-inline-start: 0.25rem solid transparent;
+  color: var(--color-paper);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.current {
+  border-inline-start-color: var(--color-lime);
+}
+
+@media (min-width: 48rem) {
+  .aside {
+    width: 100%;
+    min-height: 100dvh;
+  }
+}

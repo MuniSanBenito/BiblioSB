@@ -1,0 +1,94 @@
+/* Mobile: el menú tapa el contenido. Desde 48rem queda fijo a la izquierda. */
+.shell {
+  min-height: 100dvh;
+  background: var(--color-paper);
+}
+
+.skip {
+  position: absolute;
+  z-index: 3;
+  inset-inline-start: 0.75rem;
+  inset-block-start: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--color-paper);
+  color: var(--color-forest);
+  font-weight: 700;
+  text-decoration: none;
+  transform: translateY(-150%);
+}
+
+.skip:focus {
+  transform: translateY(0);
+}
+
+.backdrop {
+  position: fixed;
+  z-index: 1;
+  inset-inline: 0;
+  inset-block-end: 0;
+  top: 4.75rem;
+  border: 0;
+  background: color-mix(in srgb, var(--color-ink) 45%, transparent);
+  cursor: pointer;
+}
+
+.aside,
+.asideHidden {
+  display: flex;
+}
+
+.aside {
+  position: fixed;
+  z-index: 2;
+  inset-inline-start: 0;
+  inset-block-end: 0;
+  top: 4.75rem;
+}
+
+.asideHidden {
+  display: none;
+}
+
+.workspace {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 100dvh;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-block-end: 0.2rem solid var(--color-forest);
+}
+
+.main {
+  flex: 1;
+  padding: 1rem;
+}
+
+@media (min-width: 48rem) {
+  .shell {
+    display: grid;
+    grid-template-columns: 16rem minmax(0, 1fr);
+  }
+
+  .backdrop {
+    display: none;
+  }
+
+  .aside,
+  .asideHidden {
+    display: flex;
+    position: sticky;
+    top: 0;
+    height: 100dvh;
+  }
+
+  .top,
+  .main {
+    padding-inline: 1.5rem;
+  }
+}
