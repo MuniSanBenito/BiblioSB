@@ -1,4 +1,5 @@
-// Ingreso del personal. Con sesión activa sigue al panel.
+// Ingreso del personal. Con rol admin o bibliotecaria sigue al panel.
+import { readStaffRole } from "#/lib/firebase/role";
 import { signInWithEmail } from "#/lib/firebase/sign-in-with-email";
 import { waitForAuthUser } from "#/lib/firebase/wait-for-auth-user";
 import { LoginForm } from "#/ui/organisms/login-form/login-form";
@@ -19,7 +20,10 @@ export const Route = createFileRoute("/")({
   }),
   beforeLoad: async () => {
     const user = await waitForAuthUser();
-    if (user) {
+    if (!user) return;
+
+    const role = await readStaffRole(user);
+    if (role) {
       throw redirect({ to: "/panel", replace: true });
     }
   },

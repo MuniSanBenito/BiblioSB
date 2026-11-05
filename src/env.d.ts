@@ -17,7 +17,19 @@ interface ImportMeta {
 // Server-side environment variables
 declare global {
   namespace NodeJS {
-    interface ProcessEnv {}
+    interface ProcessEnv {
+      readonly FIREBASE_ADMIN_TYPE: string;
+      readonly FIREBASE_ADMIN_PROJECT_ID: string;
+      readonly FIREBASE_ADMIN_PRIVATE_KEY_ID: string;
+      readonly FIREBASE_ADMIN_PRIVATE_KEY: string;
+      readonly FIREBASE_ADMIN_CLIENT_EMAIL: string;
+      readonly FIREBASE_ADMIN_CLIENT_ID: string;
+      readonly FIREBASE_ADMIN_AUTH_URI: string;
+      readonly FIREBASE_ADMIN_TOKEN_URI: string;
+      readonly FIREBASE_ADMIN_AUTH_PROVIDER_X509_CERT_URL: string;
+      readonly FIREBASE_ADMIN_CLIENT_X509_CERT_URL: string;
+      readonly FIREBASE_ADMIN_UNIVERSE_DOMAIN: string;
+    }
   }
 }
 
