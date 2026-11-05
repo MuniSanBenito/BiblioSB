@@ -21,6 +21,13 @@ export const Route = createFileRoute("/panel")({
         replace: true,
       });
     }
+
+    return {
+      email: user.email,
+      name: user.displayName,
+      uid: user.uid,
+      role,
+    };
   },
   component: RouteComponent,
 });
