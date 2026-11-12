@@ -1,4 +1,4 @@
-// Secciones del panel. Hoy solo existe Inicio.
+// Secciones del panel: enlaces principales a la izquierda.
 import { signOutStaff } from "#/lib/firebase/sign-out";
 import { Toast } from "#/ui/molecules/toast/toast";
 import { Link, useNavigate } from "@tanstack/react-router";
@@ -47,6 +47,16 @@ export function SideNav({ hidden, onNavigate }: SideNavProps) {
               onClick={onNavigate}
             >
               Inicio
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/panel/ciudadanos"
+              className={styles.link}
+              activeProps={{ className: `${styles.link} ${styles.current}` }}
+              onClick={onNavigate}
+            >
+              Ciudadanos
             </Link>
           </li>
         </ul>

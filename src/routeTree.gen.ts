@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PanelRouteRouteImport } from './routes/panel/route'
 import { Route as PanelIndexRouteImport } from './routes/panel/index'
+import { Route as PanelCiudadanosIndexRouteImport } from './routes/panel/ciudadanos/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,28 +29,36 @@ const PanelIndexRoute = PanelIndexRouteImport.update({
   path: '/',
   getParentRoute: () => PanelRouteRoute,
 } as any)
+const PanelCiudadanosIndexRoute = PanelCiudadanosIndexRouteImport.update({
+  id: '/ciudadanos/',
+  path: '/ciudadanos/',
+  getParentRoute: () => PanelRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/panel': typeof PanelRouteRouteWithChildren
   '/panel/': typeof PanelIndexRoute
+  '/panel/ciudadanos/': typeof PanelCiudadanosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/panel': typeof PanelIndexRoute
+  '/panel/ciudadanos': typeof PanelCiudadanosIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/panel': typeof PanelRouteRouteWithChildren
   '/panel/': typeof PanelIndexRoute
+  '/panel/ciudadanos/': typeof PanelCiudadanosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/panel' | '/panel/'
+  fullPaths: '/' | '/panel' | '/panel/' | '/panel/ciudadanos/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/panel'
-  id: '__root__' | '/' | '/panel' | '/panel/'
+  to: '/' | '/panel' | '/panel/ciudadanos'
+  id: '__root__' | '/' | '/panel' | '/panel/' | '/panel/ciudadanos/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -80,15 +89,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PanelIndexRouteImport
       parentRoute: typeof PanelRouteRoute
     }
+    '/panel/ciudadanos/': {
+      id: '/panel/ciudadanos/'
+      path: '/ciudadanos'
+      fullPath: '/panel/ciudadanos/'
+      preLoaderRoute: typeof PanelCiudadanosIndexRouteImport
+      parentRoute: typeof PanelRouteRoute
+    }
   }
 }
 
 interface PanelRouteRouteChildren {
   PanelIndexRoute: typeof PanelIndexRoute
+  PanelCiudadanosIndexRoute: typeof PanelCiudadanosIndexRoute
 }
 
 const PanelRouteRouteChildren: PanelRouteRouteChildren = {
   PanelIndexRoute: PanelIndexRoute,
+  PanelCiudadanosIndexRoute: PanelCiudadanosIndexRoute,
 }
 
 const PanelRouteRouteWithChildren = PanelRouteRoute._addFileChildren(

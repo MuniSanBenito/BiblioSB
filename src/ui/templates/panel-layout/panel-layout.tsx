@@ -6,9 +6,10 @@ import { useMatches } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import styles from "./panel-layout.module.css";
 
-const crumbLabels: Record<string, string> = {
-  "/panel": "Panel",
-  "/panel/": "Inicio",
+// Solo rutas con pantalla propia; el padre /panel no va en la miga.
+const crumbByRouteId: Record<string, { label: string; to?: "/panel" }> = {
+  "/panel/": { label: "Inicio", to: "/panel" },
+  "/panel/ciudadanos/": { label: "Ciudadanos" },
 };
 
 type PanelLayoutProps = {
@@ -23,9 +24,9 @@ export function PanelLayout({ children }: PanelLayoutProps) {
   const menuHidden = !wide && !open;
 
   const crumbs = matches.flatMap((match) => {
-    const label = crumbLabels[match.routeId];
-    if (!label) return [];
-    return [{ label, to: "/panel" as const }];
+    const config = crumbByRouteId[match.routeId];
+    if (!config) return [];
+    return [{ label: config.label, to: config.to }];
   });
 
   useEffect(() => {
