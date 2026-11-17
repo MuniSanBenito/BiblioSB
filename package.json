@@ -1,55 +1,61 @@
 {
   "name": "biblio-muni",
-  "private": true,
+  "version": "1.0.0",
+  "description": "A blank template to get started with Payload 3.0",
+  "license": "MIT",
   "type": "module",
-  "imports": {
-    "#/*": "./src/*"
-  },
   "scripts": {
-    "dev": "vite dev",
-    "generate-routes": "vite build",
-    "build": "vite build",
-    "preview": "vite preview",
-    "deploy": "npm run build && wrangler deploy",
-    "ncu": "bunx npm-check-updates@latest -i",
-    "lint": "oxlint .",
-    "lint:fix": "oxlint . --fix",
-    "fmt": "oxfmt .",
-    "fmt:check": "oxfmt . --check",
-    "skills": "npx skills@latest update -p"
+    "build": "cross-env NODE_OPTIONS=\"--no-deprecation --max-old-space-size=8000\" next build",
+    "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev",
+    "devsafe": "rm -rf .next && cross-env NODE_OPTIONS=--no-deprecation next dev",
+    "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
+    "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
+    "lint": "cross-env NODE_OPTIONS=--no-deprecation eslint .",
+    "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
+    "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
+    "test": "pnpm run test:int && pnpm run test:e2e",
+    "test:e2e": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" playwright test --config=playwright.config.ts",
+    "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts",
+    "skills": "npx skills@latest update -p",
+    "ncu": "bunx npm-check-updates@latest -i"
   },
   "dependencies": {
-    "@payloadcms/sdk": "3.93.0",
-    "@tanstack/react-router": "1.170.46",
-    "@tanstack/react-start": "1.169.4",
-    "firebase": "13.2.0",
-    "firebase-admin": "14.5.0",
-    "install": "0.13.0",
+    "@payloadcms/next": "3.94.0",
+    "@payloadcms/richtext-lexical": "3.94.0",
+    "@payloadcms/ui": "3.94.0",
+    "cross-env": "10.1.0",
+    "dotenv": "18.0.10",
+    "graphql": "17.1.0",
+    "next": "16.4.6",
+    "payload": "3.94.0",
     "react": "19.3.1",
-    "react-dom": "19.3.1"
+    "react-dom": "19.3.1",
+    "sharp": "0.35.5",
+    "@payloadcms/db-postgres": "3.94.0"
   },
   "devDependencies": {
-    "@cloudflare/vite-plugin": "1.67.0",
-    "@tanstack/devtools-vite": "0.8.6",
-    "@tanstack/react-devtools": "0.10.14",
-    "@tanstack/react-router-devtools": "1.167.2",
+    "@playwright/test": "1.65.1",
+    "@testing-library/react": "16.3.3",
     "@types/node": "26.6.6",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
-    "@vitejs/plugin-react": "6.2.1",
-    "oxfmt": "0.76.0",
-    "oxlint": "1.91.0",
+    "@vitejs/plugin-react": "6.3.0",
+    "eslint": "10.15.0",
+    "eslint-config-next": "16.4.6",
+    "jsdom": "31.0.1",
+    "prettier": "3.10.1",
+    "tsx": "4.23.15",
     "typescript": "7.0.2",
-    "vite": "8.3.5",
-    "wrangler": "4.157.0"
+    "vite-tsconfig-paths": "6.1.1",
+    "vitest": "5.1.0"
   },
   "engines": {
     "bun": "1.4.4"
   },
   "packageManager": "bun@1.4.4",
   "trustedDependencies": [
-    "esbuild",
     "sharp",
-    "workerd"
+    "esbuild",
+    "unrs-resolver"
   ]
 }
