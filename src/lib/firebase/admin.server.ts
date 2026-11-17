@@ -1,8 +1,12 @@
 // Admin SDK solo en el servidor. La clave sale de .env y no se escribe en el código.
 import { cert, getApps, initializeApp } from "firebase-admin/app";
+import { getAuth } from "firebase-admin/auth";
 
-const { FIREBASE_ADMIN_PRIVATE_KEY, FIREBASE_ADMIN_PROJECT_ID, FIREBASE_ADMIN_CLIENT_EMAIL } =
-  process.env;
+const {
+  FIREBASE_ADMIN_PRIVATE_KEY,
+  FIREBASE_ADMIN_PROJECT_ID,
+  FIREBASE_ADMIN_CLIENT_EMAIL,
+} = process.env;
 
 const privateKey = FIREBASE_ADMIN_PRIVATE_KEY?.replace(/\\n/g, "\n");
 
@@ -23,3 +27,5 @@ export const firebaseAdmin =
       privateKey,
     }),
   });
+
+export const adminAuth = getAuth(firebaseAdmin);

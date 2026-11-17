@@ -18,6 +18,8 @@ interface ImportMeta {
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
+      readonly EXTERNAL_API_KEY:string;
+      readonly EXTERNAL_API_BASE_URL:string;
       readonly FIREBASE_ADMIN_TYPE: string;
       readonly FIREBASE_ADMIN_PROJECT_ID: string;
       readonly FIREBASE_ADMIN_PRIVATE_KEY_ID: string;
@@ -33,4 +35,5 @@ declare global {
   }
 }
 
-export {};
+export { };
+

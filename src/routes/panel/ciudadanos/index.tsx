@@ -1,7 +1,9 @@
 // Listado y gestión de ciudadanos (contribuyentes). Solo personal autorizado.
+import { getCiudadanos } from "#/lib/contribuyentes/api";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/panel/ciudadanos/")({
+  ssr: false,
   head: () => ({
     meta: [
       {
@@ -14,10 +16,24 @@ export const Route = createFileRoute("/panel/ciudadanos/")({
       },
     ],
   }),
+  loader: async () => {
+    // cargar ciudadanos desde la API
+    try {
+      const ciudadanos = await getCiudadanos();
+      return ciudadanos;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  },
   component: CiudadanosPage,
 });
 
 function CiudadanosPage() {
+  const data = Route.useLoaderData();
+
+  console.log(data);
+
   return (
     <article>
       <h1>Ciudadanos</h1>
