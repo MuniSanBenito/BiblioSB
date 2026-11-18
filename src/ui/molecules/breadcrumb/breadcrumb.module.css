@@ -21,7 +21,7 @@
 }
 
 .item + .item::before {
-  content: "/";
+  content: '/';
   color: var(--color-forest);
 }
 

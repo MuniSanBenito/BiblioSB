@@ -1,49 +1,55 @@
+'use client'
+
 // Cascarón del panel: menú a la izquierda y ruta arriba. El contenido lo pone la ruta.
-import { MenuButton } from "#/ui/atoms/menu-button/menu-button";
-import { Breadcrumb } from "#/ui/molecules/breadcrumb/breadcrumb";
-import { panelMenuId, SideNav } from "#/ui/organisms/side-nav/side-nav";
-import { useMatches } from "@tanstack/react-router";
-import { useEffect, useRef, useState, type ReactNode } from "react";
-import styles from "./panel-layout.module.css";
+import { MenuButton } from '@/ui/atoms/menu-button/menu-button'
+import { Breadcrumb } from '@/ui/molecules/breadcrumb/breadcrumb'
+import { panelMenuId, SideNav } from '@/ui/organisms/side-nav/side-nav'
+import { useSelectedLayoutSegments } from 'next/navigation'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
+import styles from './panel-layout.module.css'
 
 // Solo rutas con pantalla propia; el padre /panel no va en la miga.
-const crumbByRouteId: Record<string, { label: string; to?: "/panel" }> = {
-  "/panel/": { label: "Inicio", to: "/panel" },
-  "/panel/ciudadanos/": { label: "Ciudadanos" },
-};
+const crumbByRouteId: Record<string, { label: string; to?: '/panel' }> = {
+  '/panel/': { label: 'Inicio', to: '/panel' },
+  '/panel/ciudadanos/': { label: 'Ciudadanos' },
+}
 
 type PanelLayoutProps = {
-  children: ReactNode;
-};
+  children: ReactNode
+}
 
 export function PanelLayout({ children }: PanelLayoutProps) {
-  const [open, setOpen] = useState(false);
-  const wide = useWideScreen();
-  const menuButtonRef = useRef<HTMLButtonElement>(null);
-  const matches = useMatches();
-  const menuHidden = !wide && !open;
+  const [open, setOpen] = useState(false)
+  const wide = useWideScreen()
+  const menuButtonRef = useRef<HTMLButtonElement>(null)
+  const segments = useSelectedLayoutSegments()
+  const menuHidden = !wide && !open
 
-  const crumbs = matches.flatMap((match) => {
-    const config = crumbByRouteId[match.routeId];
-    if (!config) return [];
-    return [{ label: config.label, to: config.to }];
-  });
+  const crumbs = segments.flatMap((segment) => {
+    const config = crumbByRouteId[segment]
 
-  useEffect(() => {
-    if (!open || wide) return;
-
-    function onKey(event: KeyboardEvent) {
-      if (event.key !== "Escape") return;
-      setOpen(false);
-      menuButtonRef.current?.focus();
+    if (!config) {
+      return []
     }
 
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [open, wide]);
+    return [{ label: config.label, to: config.to }]
+  })
+
+  useEffect(() => {
+    if (!open || wide) return
+
+    function onKey(event: KeyboardEvent) {
+      if (event.key !== 'Escape') return
+      setOpen(false)
+      menuButtonRef.current?.focus()
+    }
+
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [open, wide])
 
   function closeMenu() {
-    setOpen(false);
+    setOpen(false)
   }
 
   return (
@@ -77,18 +83,21 @@ export function PanelLayout({ children }: PanelLayoutProps) {
         </main>
       </div>
     </div>
-  );
+  )
 }
 
 function useWideScreen() {
-  const [wide, setWide] = useState(() => window.matchMedia("(min-width: 48rem)").matches);
+  // Inicializamos en false para evitar ReferenceError en SSR y hydration mismatch
+  const [wide, setWide] = useState(false)
 
   useEffect(() => {
-    const query = window.matchMedia("(min-width: 48rem)");
-    const update = () => setWide(query.matches);
-    query.addEventListener("change", update);
-    return () => query.removeEventListener("change", update);
-  }, []);
+    const query = window.matchMedia('(min-width: 48rem)')
+    const update = () => setWide(query.matches)
 
-  return wide;
+    update() // Sincroniza el estado real al montar en el cliente
+    query.addEventListener('change', update)
+    return () => query.removeEventListener('change', update)
+  }, [])
+
+  return wide
 }

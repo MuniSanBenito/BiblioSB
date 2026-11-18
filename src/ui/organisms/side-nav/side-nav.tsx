@@ -1,32 +1,48 @@
-// Secciones del panel: enlaces principales a la izquierda.
-import { signOutStaff } from "#/lib/firebase/sign-out";
-import { Toast } from "#/ui/molecules/toast/toast";
-import { Link, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
-import styles from "./side-nav.module.css";
+'use client'
 
-export const panelMenuId = "panel-menu";
+// Secciones del panel: enlaces principales a la izquierda.
+import { NavLink } from '@/ui/atoms/nav-link/nav-link'
+import { Toast } from '@/ui/molecules/toast/toast'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import styles from './side-nav.module.css'
+
+export const panelMenuId = 'panel-menu'
 
 type SideNavProps = {
-  hidden: boolean;
-  onNavigate: () => void;
-};
+  hidden: boolean
+  onNavigate: () => void
+}
 
 export function SideNav({ hidden, onNavigate }: SideNavProps) {
-  const navigate = useNavigate();
-  const [pending, setPending] = useState(false);
-  const [error, setError] = useState("");
+  const router = useRouter()
+  const [pending, setPending] = useState(false)
+  const [error, setError] = useState('')
 
   async function handleSignOut() {
-    if (pending) return;
-    setError("");
-    setPending(true);
+    if (pending) return
+    setError('')
+    setPending(true)
+
     try {
-      await signOutStaff();
-      await navigate({ to: "/", replace: true });
-    } catch {
-      setError("No se pudo cerrar la sesión. Volvé a intentar.");
-      setPending(false);
+      const req = await fetch('/api/users/logout', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+
+      if (req.ok) {
+        router.replace('/')
+        router.refresh()
+      } else {
+        throw new Error('No se pudo cerrar la sesión. Volvé a intentar.')
+      }
+    } catch (error) {
+      console.error(error)
+      setError('No se pudo cerrar la sesión. Volvé a intentar.')
+      setPending(false)
     }
   }
 
@@ -39,39 +55,39 @@ export function SideNav({ hidden, onNavigate }: SideNavProps) {
       <nav aria-label="Secciones del panel">
         <ul className={styles.list}>
           <li>
-            <Link
-              to="/panel"
+            <NavLink
+              href="/panel"
               className={styles.link}
               activeProps={{ className: `${styles.link} ${styles.current}` }}
-              activeOptions={{ exact: true }}
+              exact
               onClick={onNavigate}
             >
               Inicio
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link
-              to="/panel/ciudadanos"
+            <NavLink
+              href="/panel/ciudadanos"
               className={styles.link}
               activeProps={{ className: `${styles.link} ${styles.current}` }}
               onClick={onNavigate}
             >
               Ciudadanos
-            </Link>
+            </NavLink>
           </li>
         </ul>
       </nav>
       <div className={styles.signOut}>
-        {error ? <Toast message={error} onClose={() => setError("")} /> : null}
+        {error ? <Toast message={error} onClose={() => setError('')} /> : null}
         <button
           type="button"
           className={styles.signOutButton}
           disabled={pending}
           onClick={handleSignOut}
         >
-          {pending ? "Cerrando sesión" : "Cerrar sesión"}
+          {pending ? 'Cerrando sesión' : 'Cerrar sesión'}
         </button>
       </div>
     </aside>
-  );
+  )
 }

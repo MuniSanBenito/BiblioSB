@@ -1,19 +1,21 @@
+'use client'
+
 // Campo de texto nativo. La etiqueta vive en la molécula que lo usa.
-import styles from "./text-input.module.css";
+import styles from './text-input.module.css'
 
 type TextInputProps = {
-  id: string;
-  name: string;
-  type: "email" | "password" | "text";
-  autoComplete: string;
-  value: string;
-  onChange: (value: string) => void;
-  enterKeyHint?: "next" | "done";
-  spellCheck?: boolean;
-  autoCapitalize?: "off";
-  ariaInvalid?: boolean;
-  ariaDescribedBy?: string;
-};
+  id: string
+  name: string
+  type: 'email' | 'password' | 'text'
+  autoComplete: string
+  value: string
+  onChange: (value: string) => void
+  enterKeyHint?: 'next' | 'done'
+  spellCheck?: boolean
+  autoCapitalize?: 'off'
+  ariaInvalid?: boolean
+  ariaDescribedBy?: string
+}
 
 export function TextInput({
   id,
@@ -44,5 +46,5 @@ export function TextInput({
       aria-describedby={ariaDescribedBy}
       onChange={(event) => onChange(event.target.value)}
     />
-  );
+  )
 }

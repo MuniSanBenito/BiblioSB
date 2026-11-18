@@ -1,21 +1,23 @@
+'use client'
+
 // Etiqueta visible arriba del campo. El placeholder no reemplaza a la etiqueta.
-import { TextInput } from "#/ui/atoms/text-input/text-input";
-import styles from "./text-field.module.css";
+import { TextInput } from '@/ui/atoms/text-input/text-input'
+import styles from './text-field.module.css'
 
 type TextFieldProps = {
-  id: string;
-  label: string;
-  name: string;
-  type: "email" | "password" | "text";
-  autoComplete: string;
-  value: string;
-  onChange: (value: string) => void;
-  enterKeyHint?: "next" | "done";
-  spellCheck?: boolean;
-  autoCapitalize?: "off";
-  ariaInvalid?: boolean;
-  ariaDescribedBy?: string;
-};
+  id: string
+  label: string
+  name: string
+  type: 'email' | 'password' | 'text'
+  autoComplete: string
+  value: string
+  onChange: (value: string) => void
+  enterKeyHint?: 'next' | 'done'
+  spellCheck?: boolean
+  autoCapitalize?: 'off'
+  ariaInvalid?: boolean
+  ariaDescribedBy?: string
+}
 
 export function TextField({
   id,
@@ -50,5 +52,5 @@ export function TextField({
         ariaDescribedBy={ariaDescribedBy}
       />
     </div>
-  );
+  )
 }

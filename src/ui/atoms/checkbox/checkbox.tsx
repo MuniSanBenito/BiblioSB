@@ -1,15 +1,17 @@
+'use client'
+
 // Casilla nativa con su texto. El objetivo táctil es toda la etiqueta.
-import type { ReactNode } from "react";
-import styles from "./checkbox.module.css";
+import type { ReactNode } from 'react'
+import styles from './checkbox.module.css'
 
 type CheckboxProps = {
-  id: string;
-  name: string;
-  checked: boolean;
-  onChange: (checked: boolean) => void;
-  describedBy?: string;
-  children: ReactNode;
-};
+  id: string
+  name: string
+  checked: boolean
+  onChange: (checked: boolean) => void
+  describedBy?: string
+  children: ReactNode
+}
 
 export function Checkbox({ id, name, checked, onChange, describedBy, children }: CheckboxProps) {
   return (
@@ -25,5 +27,5 @@ export function Checkbox({ id, name, checked, onChange, describedBy, children }:
       />
       <span>{children}</span>
     </label>
-  );
+  )
 }

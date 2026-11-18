@@ -1,15 +1,17 @@
+'use client'
+
 // Aviso flotante. Se anuncia al lector de pantalla y no empuja el contenido.
-import { createPortal } from "react-dom";
-import styles from "./toast.module.css";
+import { createPortal } from 'react-dom'
+import styles from './toast.module.css'
 
 type ToastProps = {
-  id?: string;
-  message: string;
-  onClose: () => void;
-};
+  id?: string
+  message: string
+  onClose: () => void
+}
 
 export function Toast({ id, message, onClose }: ToastProps) {
-  if (typeof document === "undefined") return null;
+  if (typeof document === 'undefined') return null
 
   return createPortal(
     <div id={id} className={styles.toast} role="alert">
@@ -19,5 +21,5 @@ export function Toast({ id, message, onClose }: ToastProps) {
       </button>
     </div>,
     document.body,
-  );
+  )
 }

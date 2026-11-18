@@ -1,43 +1,62 @@
+'use client'
+
 // Formulario de ingreso. Traduce los errores de Firebase a una frase concreta.
-import { Button } from "#/ui/atoms/button/button";
-import { PasswordField } from "#/ui/molecules/password-field/password-field";
-import { TextField } from "#/ui/molecules/text-field/text-field";
-import { Toast } from "#/ui/molecules/toast/toast";
-import { FirebaseError } from "firebase/app";
-import { useState, type SubmitEvent } from "react";
-import styles from "./login-form.module.css";
+import { sdk } from '@/lib/payload/sdk'
+import { Button } from '@/ui/atoms/button/button'
+import { PasswordField } from '@/ui/molecules/password-field/password-field'
+import { TextField } from '@/ui/molecules/text-field/text-field'
+import { Toast } from '@/ui/molecules/toast/toast'
+import { PayloadSDKError } from '@payloadcms/sdk'
+import { redirect, RedirectType } from 'next/navigation'
+import { useState, type SubmitEvent } from 'react'
+import styles from './login-form.module.css'
 
-const errorId = "login-error";
+const errorId = 'login-error'
 
-type LoginFormProps = {
-  onSubmit: (email: string, password: string) => Promise<void>;
-};
-
-export function LoginForm({ onSubmit }: LoginFormProps) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [pending, setPending] = useState(false);
+export function LoginForm() {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const [pending, setPending] = useState(false)
 
   async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
-    event.preventDefault();
-    if (pending) return;
+    event.preventDefault()
 
-    setError("");
-    setPending(true);
+    if (pending) {
+      return
+    }
+
+    setError('')
+    setPending(true)
+
     try {
-      await onSubmit(email, password);
+      const r = await sdk.login({
+        collection: 'users',
+        data: {
+          email: email,
+          password: password,
+        },
+      })
+
+      if (!r.user) {
+        setError('El correo o la contraseña no coinciden.')
+      }
+
+      redirect('/panel', RedirectType.replace)
     } catch (caught) {
-      setError(messageForAuthError(caught));
-      setPending(false);
+      setError(messageForAuthError(caught))
+      setPending(false)
     }
   }
 
   function clearError(update: (value: string) => void) {
     return (value: string) => {
-      if (error) setError("");
-      update(value);
-    };
+      if (error) {
+        setError('')
+      }
+
+      update(value)
+    }
   }
 
   return (
@@ -71,41 +90,32 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
         ariaInvalid={Boolean(error)}
         ariaDescribedBy={error ? errorId : undefined}
       />
-      {error ? <Toast id={errorId} message={error} onClose={() => setError("")} /> : null}
-      <Button disabled={pending}>{pending ? "Ingresando" : "Ingresar"}</Button>
+      {error ? <Toast id={errorId} message={error} onClose={() => setError('')} /> : null}
+      <Button disabled={pending}>{pending ? 'Ingresando' : 'Ingresar'}</Button>
     </form>
-  );
+  )
 }
 
 function messageForAuthError(error: unknown) {
-  if (!(error instanceof FirebaseError)) {
-    return "No se pudo ingresar. Volvé a intentar.";
+  // Red caída u otro fallo de fetch
+  if (!(error instanceof PayloadSDKError)) {
+    if (error instanceof TypeError) {
+      return 'No hay conexión. Revisá la red y volvé a intentar.'
+    }
+    return 'No se pudo ingresar. Volvé a intentar.'
   }
 
-  if (error.code === "auth/invalid-email") {
-    return "El correo no tiene un formato válido.";
+  const msg = error.message
+
+  // LockedAuth (maxLoginAttempts por defecto: 5)
+  if (msg.includes('locked') || msg.includes('too many failed login')) {
+    return 'Demasiados intentos. Esperá un momento y volvé a intentar.'
   }
 
-  if (error.code === "auth/too-many-requests") {
-    return "Demasiados intentos. Esperá un momento y volvé a intentar.";
+  // AuthenticationError
+  if (msg.includes('email or password') || msg.includes('incorrect')) {
+    return 'El correo o la contraseña no coinciden.'
   }
 
-  if (error.code === "auth/user-disabled") {
-    return "Esta cuenta está deshabilitada. Consultá en la biblioteca.";
-  }
-
-  if (error.code === "auth/network-request-failed") {
-    return "No hay conexión. Revisá la red y volvé a intentar.";
-  }
-
-  if (
-    error.code === "auth/invalid-credential" ||
-    error.code === "auth/wrong-password" ||
-    error.code === "auth/user-not-found" ||
-    error.code === "auth/invalid-login-credentials"
-  ) {
-    return "El correo o la contraseña no coinciden.";
-  }
-
-  return "No se pudo ingresar. Volvé a intentar.";
+  return 'No se pudo ingresar. Volvé a intentar.'
 }
