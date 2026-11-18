@@ -24,20 +24,20 @@ If the live tools are unavailable, use Lighthouse CLI or axe for automated cover
 
 ## WCAG Principles: POUR
 
-| Principle          | Description                                       |
-| ------------------ | ------------------------------------------------- |
-| **P**erceivable    | Content can be perceived through different senses |
-| **O**perable       | Interface can be operated by all users            |
-| **U**nderstandable | Content and interface are understandable          |
-| **R**obust         | Content works with assistive technologies         |
+| Principle | Description |
+|-----------|-------------|
+| **P**erceivable | Content can be perceived through different senses |
+| **O**perable | Interface can be operated by all users |
+| **U**nderstandable | Content and interface are understandable |
+| **R**obust | Content works with assistive technologies |
 
 ## Conformance levels
 
-| Level   | Requirement            | Target                                                |
-| ------- | ---------------------- | ----------------------------------------------------- |
-| **A**   | Minimum accessibility  | Must pass                                             |
-| **AA**  | Standard compliance    | Should pass (legal requirement in many jurisdictions) |
-| **AAA** | Enhanced accessibility | Nice to have                                          |
+| Level | Requirement | Target |
+|-------|-------------|--------|
+| **A** | Minimum accessibility | Must pass |
+| **AA** | Standard compliance | Should pass (legal requirement in many jurisdictions) |
+| **AAA** | Enhanced accessibility | Nice to have |
 
 ---
 
@@ -46,24 +46,20 @@ If the live tools are unavailable, use Lighthouse CLI or axe for automated cover
 ### Text alternatives (1.1)
 
 **Images require alt text:**
-
 ```html
 <!-- ❌ Missing alt -->
-<img src="chart.png" />
+<img src="chart.png">
 
 <!-- ✅ Descriptive alt -->
-<img src="chart.png" alt="Bar chart showing 40% increase in Q3 sales" />
+<img src="chart.png" alt="Bar chart showing 40% increase in Q3 sales">
 
 <!-- ✅ Decorative image (empty alt) -->
-<img src="decorative-border.png" alt="" role="presentation" />
+<img src="decorative-border.png" alt="" role="presentation">
 
 <!-- ✅ Complex image with longer description -->
 <figure>
-  <img
-    src="infographic.png"
-    alt="2024 market trends infographic"
-    aria-describedby="infographic-desc"
-  />
+  <img src="infographic.png" alt="2024 market trends infographic" 
+       aria-describedby="infographic-desc">
   <figcaption id="infographic-desc">
     <!-- Detailed description -->
   </figcaption>
@@ -71,12 +67,9 @@ If the live tools are unavailable, use Lighthouse CLI or axe for automated cover
 ```
 
 **Icon buttons need accessible names:**
-
 ```html
 <!-- ❌ No accessible name -->
-<button>
-  <svg><!-- menu icon --></svg>
-</button>
+<button><svg><!-- menu icon --></svg></button>
 
 <!-- ✅ Using aria-label -->
 <button aria-label="Open menu">
@@ -91,7 +84,6 @@ If the live tools are unavailable, use Lighthouse CLI or axe for automated cover
 ```
 
 **Visually hidden class:**
-
 ```css
 .visually-hidden {
   position: absolute;
@@ -108,11 +100,11 @@ If the live tools are unavailable, use Lighthouse CLI or axe for automated cover
 
 ### Color contrast (1.4.3, 1.4.6)
 
-| Text Size                          | AA minimum | AAA enhanced |
-| ---------------------------------- | ---------- | ------------ |
-| Normal text (< 18px / < 14px bold) | 4.5:1      | 7:1          |
-| Large text (≥ 18px / ≥ 14px bold)  | 3:1        | 4.5:1        |
-| UI components & graphics           | 3:1        | 3:1          |
+| Text Size | AA minimum | AAA enhanced |
+|-----------|------------|--------------|
+| Normal text (< 18px / < 14px bold) | 4.5:1 | 7:1 |
+| Large text (≥ 18px / ≥ 14px bold) | 3:1 | 4.5:1 |
+| UI components & graphics | 3:1 | 3:1 |
 
 ```css
 /* ❌ Low contrast (2.5:1) */
@@ -135,19 +127,14 @@ If the live tools are unavailable, use Lighthouse CLI or axe for automated cover
 ```
 
 **Don't rely on color alone:**
-
 ```html
 <!-- ❌ Only color indicates error -->
-<input class="error-border" />
-<style>
-  .error-border {
-    border-color: red;
-  }
-</style>
+<input class="error-border">
+<style>.error-border { border-color: red; }</style>
 
 <!-- ✅ Color + icon + text -->
 <div class="field-error">
-  <input aria-invalid="true" aria-describedby="email-error" />
+  <input aria-invalid="true" aria-describedby="email-error">
   <span id="email-error" class="error-message">
     <svg aria-hidden="true"><!-- error icon --></svg>
     Please enter a valid email address
@@ -160,14 +147,14 @@ If the live tools are unavailable, use Lighthouse CLI or axe for automated cover
 ```html
 <!-- Video with captions -->
 <video controls>
-  <source src="video.mp4" type="video/mp4" />
-  <track kind="captions" src="captions.vtt" srclang="en" label="English" default />
-  <track kind="descriptions" src="descriptions.vtt" srclang="en" label="Descriptions" />
+  <source src="video.mp4" type="video/mp4">
+  <track kind="captions" src="captions.vtt" srclang="en" label="English" default>
+  <track kind="descriptions" src="descriptions.vtt" srclang="en" label="Descriptions">
 </video>
 
 <!-- Audio with transcript -->
 <audio controls>
-  <source src="podcast.mp3" type="audio/mp3" />
+  <source src="podcast.mp3" type="audio/mp3">
 </audio>
 <details>
   <summary>Transcript</summary>
@@ -195,11 +182,11 @@ If the live tools are unavailable, use Lighthouse CLI or axe for automated cover
 // ✅ When you MUST use a non-interactive element (e.g. div with role="button"),
 // make it focusable AND handle keyboard activation. Do NOT add this to a native
 // <button> — Enter/Space already fire click, so you'd double-trigger.
-element.setAttribute("role", "button");
-element.setAttribute("tabindex", "0");
-element.addEventListener("click", handleAction);
-element.addEventListener("keydown", (e) => {
-  if (e.key === "Enter" || e.key === " ") {
+element.setAttribute('role', 'button');
+element.setAttribute('tabindex', '0');
+element.addEventListener('click', handleAction);
+element.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' || e.key === ' ') {
     e.preventDefault();
     handleAction();
   }
@@ -212,9 +199,7 @@ element.addEventListener("keydown", (e) => {
 
 ```css
 /* ❌ Never remove focus outlines */
-*:focus {
-  outline: none;
-}
+*:focus { outline: none; }
 
 /* ✅ Use :focus-visible for keyboard-only focus */
 :focus {
@@ -287,13 +272,13 @@ Any action that requires dragging must have a single-pointer alternative (e.g., 
 // Allow users to extend time limits
 function showSessionWarning() {
   const modal = createModal({
-    title: "Session Expiring",
-    content: "Your session will expire in 2 minutes.",
+    title: 'Session Expiring',
+    content: 'Your session will expire in 2 minutes.',
     actions: [
-      { label: "Extend session", action: extendSession },
-      { label: "Log out", action: logout },
+      { label: 'Extend session', action: extendSession },
+      { label: 'Log out', action: logout }
     ],
-    timeout: 120000,
+    timeout: 120000
   });
 }
 ```
@@ -323,10 +308,12 @@ function showSessionWarning() {
 ```html
 <!-- ❌ No language specified -->
 <html>
-  <!-- ✅ Language specified -->
-  <html lang="en">
-    <!-- ✅ Language changes within page -->
-    <p>The French word for hello is <span lang="fr">bonjour</span>.</p>
+
+<!-- ✅ Language specified -->
+<html lang="en">
+
+<!-- ✅ Language changes within page -->
+<p>The French word for hello is <span lang="fr">bonjour</span>.</p>
 ```
 
 ### Consistent navigation (3.2.3)
@@ -363,7 +350,7 @@ Don't force users to re-enter information they already provided in the same sess
 <fieldset>
   <legend>Shipping address</legend>
   <label>
-    <input type="checkbox" id="same-as-billing" checked />
+    <input type="checkbox" id="same-as-billing" checked>
     Same as billing address
   </label>
   <!-- Fields auto-populated when checked -->
@@ -373,14 +360,13 @@ Don't force users to re-enter information they already provided in the same sess
 ### Accessible authentication (3.3.8) — new in 2.2
 
 Login flows must not rely on cognitive function tests (e.g., remembering a password, solving a puzzle) unless at least one of:
-
 - A copy-paste or autofill mechanism is available
 - An alternative method exists (e.g., passkey, SSO, email link)
 - The test uses object recognition or personal content (AA only; AAA removes this exception)
 
 ```html
 <!-- ✅ Allow paste in password fields -->
-<input type="password" id="password" autocomplete="current-password" />
+<input type="password" id="password" autocomplete="current-password">
 
 <!-- ✅ Offer passwordless alternatives -->
 <button type="button">Sign in with passkey</button>
@@ -394,7 +380,6 @@ Login flows must not rely on cognitive function tests (e.g., remembering a passw
 ### ARIA usage (4.1.2)
 
 **Prefer native elements:**
-
 ```html
 <!-- ❌ ARIA role on div -->
 <div role="button" tabindex="0">Click me</div>
@@ -406,7 +391,7 @@ Login flows must not rely on cognitive function tests (e.g., remembering a passw
 <div role="checkbox" aria-checked="false">Option</div>
 
 <!-- ✅ Native checkbox -->
-<label><input type="checkbox" /> Option</label>
+<label><input type="checkbox"> Option</label>
 ```
 
 **When ARIA is needed,** use the correct roles and states. See the [ARIA tabs pattern](references/A11Y-PATTERNS.md#aria-tabs) for a complete tablist example.
@@ -449,7 +434,6 @@ See the [screen reader commands reference](references/A11Y-PATTERNS.md#screen-re
 ## Common issues by impact
 
 ### Critical (fix immediately)
-
 1. Missing form labels
 2. Missing image alt text
 3. Insufficient color contrast
@@ -457,7 +441,6 @@ See the [screen reader commands reference](references/A11Y-PATTERNS.md#screen-re
 5. No focus indicators
 
 ### Serious (fix before launch)
-
 1. Missing page language
 2. Missing heading structure
 3. Non-descriptive link text
@@ -465,7 +448,6 @@ See the [screen reader commands reference](references/A11Y-PATTERNS.md#screen-re
 5. Missing skip links
 
 ### Moderate (fix soon)
-
 1. Missing ARIA labels on icons
 2. Inconsistent navigation
 3. Missing error identification
