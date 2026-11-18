@@ -78,7 +78,8 @@ export function PanelLayout({ children }: PanelLayoutProps) {
           />
           <Breadcrumb items={crumbs} />
         </header>
-        <main id="contenido" className={styles.main}>
+        {/* tabIndex -1: el enlace "Saltar al contenido" puede mover el foco acá. */}
+        <main id="contenido" tabIndex={-1} className={styles.main}>
           {children}
         </main>
       </div>

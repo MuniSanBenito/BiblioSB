@@ -2,10 +2,6 @@
 
 import { usePanelUser } from '@/context/panel-user-context'
 
-/* export const metadata: Metadata = {
-  title: 'Inicio | Panel · Biblioteca municipal de San Benito',
-} */
-
 export default function Page() {
   const user = usePanelUser()
 

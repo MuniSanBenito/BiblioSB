@@ -34,7 +34,7 @@ export default async function HomePage() {
       <main className={styles.main}>
         <LoginForm />
       </main>
-      <p className={styles.note}>Municipalidad de San Benito</p>
+      <footer className={styles.note}>Municipalidad de San Benito</footer>
     </div>
   )
 }

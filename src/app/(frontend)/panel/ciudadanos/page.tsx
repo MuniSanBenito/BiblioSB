@@ -11,7 +11,6 @@ export default async function Page() {
   const ciudadanos = await globalSdk.find({
     collection: 'contribuyentes',
   })
-  console.log(ciudadanos)
 
   return (
     <article>

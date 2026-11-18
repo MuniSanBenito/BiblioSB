@@ -9,11 +9,7 @@
   accent-color: var(--color-forest);
 }
 
-/* Base mobile: texto a 16px para que iOS no haga zoom al enfocar un campo. */
-html {
-  font-size: 100%;
-}
-
+/* Base de 1rem: 16px evita el zoom de iOS al enfocar un campo. */
 body {
   margin: 0;
   background: var(--color-paper);
@@ -23,17 +19,15 @@ body {
   line-height: 1.5;
 }
 
-:focus {
-  outline: none;
-}
-
+/* Solo el teclado dibuja el anillo; el navegador ya distingue foco de :focus-visible. */
 :focus-visible {
   outline: 2px solid var(--color-forest);
   outline-offset: 2px;
 }
 
-:focus {
-  scroll-margin-top: 1rem;
+/* Destino de los saltos: deja aire arriba cuando el navegador scrollea hasta él. */
+:target {
+  scroll-margin-block-start: 1rem;
 }
 
 /* Texto solo para lectores de pantalla. clip-path lo saca de la vista sin sacarlo del árbol. */
@@ -49,13 +43,8 @@ body {
   border: 0;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    scroll-behavior: auto !important;
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
+/* Prosa del panel: ancho de línea legible y sin palabras huérfanas. */
+article p {
+  max-width: 65ch;
+  text-wrap: pretty;
 }

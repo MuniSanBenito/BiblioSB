@@ -11,8 +11,6 @@ import { redirect, RedirectType } from 'next/navigation'
 import { useState, type SubmitEvent } from 'react'
 import styles from './login-form.module.css'
 
-const errorId = 'login-error'
-
 export function LoginForm() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -63,6 +61,7 @@ export function LoginForm() {
     <form
       className={styles.form}
       id="ingresar"
+      tabIndex={-1}
       method="post"
       action="/"
       aria-busy={pending}
@@ -81,16 +80,10 @@ export function LoginForm() {
         enterKeyHint="next"
         spellCheck={false}
         autoCapitalize="off"
-        ariaInvalid={Boolean(error)}
-        ariaDescribedBy={error ? errorId : undefined}
       />
-      <PasswordField
-        value={password}
-        onChange={clearError(setPassword)}
-        ariaInvalid={Boolean(error)}
-        ariaDescribedBy={error ? errorId : undefined}
-      />
-      {error ? <Toast id={errorId} message={error} onClose={() => setError('')} /> : null}
+      {/* El error es del formulario, no de un campo: se anuncia una sola vez por el Toast. */}
+      <PasswordField value={password} onChange={clearError(setPassword)} />
+      {error ? <Toast message={error} onClose={() => setError('')} /> : null}
       <Button disabled={pending}>{pending ? 'Ingresando' : 'Ingresar'}</Button>
     </form>
   )
