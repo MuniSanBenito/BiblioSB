@@ -11,7 +11,7 @@
   box-sizing: border-box;
   width: min(24rem, calc(100% - 2rem));
   padding: 0.75rem 0.75rem 0.75rem 1rem;
-  background: var(--color-forest);
+  background: var(--color-error);
   color: var(--color-paper);
 }
 

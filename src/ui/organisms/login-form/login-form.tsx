@@ -7,11 +7,13 @@ import { PasswordField } from '@/ui/molecules/password-field/password-field'
 import { TextField } from '@/ui/molecules/text-field/text-field'
 import { Toast } from '@/ui/molecules/toast/toast'
 import { PayloadSDKError } from '@payloadcms/sdk'
-import { redirect, RedirectType } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { useState, type SubmitEvent } from 'react'
 import styles from './login-form.module.css'
 
 export function LoginForm() {
+  const router = useRouter()
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -36,13 +38,18 @@ export function LoginForm() {
         },
       })
 
-      if (!r.user) {
-        setError('El correo o la contraseña no coinciden.')
+      if (r.user) {
+        router.replace('/panel')
+        router.refresh()
+        setPending(false)
+        setError('')
+        return
       }
 
-      redirect('/panel', RedirectType.replace)
-    } catch (caught) {
-      setError(messageForAuthError(caught))
+      setError('El correo o la contraseña no coinciden.')
+    } catch (error) {
+      console.error(error)
+      setError(messageForAuthError(error))
       setPending(false)
     }
   }

@@ -5,6 +5,7 @@
   --color-sky: #7bcbe2;
   --color-ink: #4d4d4d;
   --color-paper: #ffffff;
+  --color-error: #b3261e;
   color-scheme: light;
   accent-color: var(--color-forest);
 }
