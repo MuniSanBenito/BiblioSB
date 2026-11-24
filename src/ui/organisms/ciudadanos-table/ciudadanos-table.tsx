@@ -55,13 +55,17 @@ function buildHeaders(
   sort: SortField,
   order: SortOrder,
 ): DataTableHeader[] {
-  return COLUMNS.map(({ field, label }) => ({
-    label,
-    href: sortHref(field, q, limit, sort, order),
-    ...(field === sort
-      ? { ariaSort: (order === 'asc' ? 'ascending' : 'descending') as const }
-      : {}),
-  }))
+  return COLUMNS.map(({ field, label }) => {
+    const header: DataTableHeader = {
+      label,
+      href: sortHref(field, q, limit, sort, order),
+    }
+    // Solo la columna activa lleva aria-sort.
+    if (field === sort) {
+      header.ariaSort = order === 'asc' ? 'ascending' : 'descending'
+    }
+    return header
+  })
 }
 
 export function CiudadanosTable({ docs, q, limit, sort, order }: CiudadanosTableProps) {
