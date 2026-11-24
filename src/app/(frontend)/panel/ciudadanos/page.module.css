@@ -1,0 +1,9 @@
+/* Franja inferior: paginado a la izquierda, tamaño a la derecha. */
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-block: 1rem;
+}

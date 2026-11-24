@@ -1,0 +1,12 @@
+/* Etiqueta arriba del search; el aire entre grupos lo pone el formulario. */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  flex: 1 1 12rem;
+}
+
+.label {
+  font: inherit;
+  font-weight: 700;
+}

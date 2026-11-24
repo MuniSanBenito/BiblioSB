@@ -1,18 +1,10 @@
 'use client'
 
-// Cascarón del panel: menú a la izquierda y ruta arriba. El contenido lo pone la ruta.
+// Cascarón del panel: menú a la izquierda. En desktop el título de la página va primero.
 import { MenuButton } from '@/ui/atoms/menu-button/menu-button'
-import { Breadcrumb } from '@/ui/molecules/breadcrumb/breadcrumb'
 import { panelMenuId, SideNav } from '@/ui/organisms/side-nav/side-nav'
-import { useSelectedLayoutSegments } from 'next/navigation'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import styles from './panel-layout.module.css'
-
-// Solo rutas con pantalla propia; el padre /panel no va en la miga.
-const crumbByRouteId: Record<string, { label: string; to?: '/panel' }> = {
-  '/panel/': { label: 'Inicio', to: '/panel' },
-  '/panel/ciudadanos/': { label: 'Ciudadanos' },
-}
 
 type PanelLayoutProps = {
   children: ReactNode
@@ -22,18 +14,7 @@ export function PanelLayout({ children }: PanelLayoutProps) {
   const [open, setOpen] = useState(false)
   const wide = useWideScreen()
   const menuButtonRef = useRef<HTMLButtonElement>(null)
-  const segments = useSelectedLayoutSegments()
   const menuHidden = !wide && !open
-
-  const crumbs = segments.flatMap((segment) => {
-    const config = crumbByRouteId[segment]
-
-    if (!config) {
-      return []
-    }
-
-    return [{ label: config.label, to: config.to }]
-  })
 
   useEffect(() => {
     if (!open || wide) return
@@ -69,15 +50,17 @@ export function PanelLayout({ children }: PanelLayoutProps) {
         <SideNav hidden={menuHidden} onNavigate={closeMenu} />
       </div>
       <div className={styles.workspace}>
-        <header className={styles.top}>
-          <MenuButton
-            ref={menuButtonRef}
-            open={open}
-            controls={panelMenuId}
-            onClick={() => setOpen((value) => !value)}
-          />
-          <Breadcrumb items={crumbs} />
-        </header>
+        {/* Solo móvil: el menú hamburguesa. Desktop ya tiene el side nav. */}
+        {!wide ? (
+          <header className={styles.top}>
+            <MenuButton
+              ref={menuButtonRef}
+              open={open}
+              controls={panelMenuId}
+              onClick={() => setOpen((value) => !value)}
+            />
+          </header>
+        ) : null}
         {/* tabIndex -1: el enlace "Saltar al contenido" puede mover el foco acá. */}
         <main id="contenido" tabIndex={-1} className={styles.main}>
           {children}

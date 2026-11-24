@@ -24,9 +24,7 @@
 .backdrop {
   position: fixed;
   z-index: 1;
-  inset-inline: 0;
-  inset-block-end: 0;
-  top: 4.75rem;
+  inset: 0;
   border: 0;
   background: color-mix(in srgb, var(--color-ink) 45%, transparent);
   cursor: pointer;
@@ -41,8 +39,7 @@
   position: fixed;
   z-index: 2;
   inset-inline-start: 0;
-  inset-block-end: 0;
-  top: 4.75rem;
+  inset-block: 0;
 }
 
 .asideHidden {
@@ -56,17 +53,26 @@
   min-height: 100dvh;
 }
 
+/* Solo móvil: botón de menú, sin línea ni miga de pan. */
 .top {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.75rem 1rem;
-  border-block-end: 0.2rem solid var(--color-forest);
+  padding: 0.5rem 1rem;
 }
 
 .main {
   flex: 1;
   padding: 1rem;
+}
+
+/* El h1 de cada pantalla es el primer bloque visual del contenido. */
+.main > :first-child {
+  margin-block-start: 0;
+}
+
+.main :is(h1) {
+  margin-block-start: 0;
 }
 
 @media (min-width: 48rem) {
@@ -87,8 +93,8 @@
     height: 100dvh;
   }
 
-  .top,
   .main {
     padding-inline: 1.5rem;
+    padding-block-start: 1rem;
   }
 }
