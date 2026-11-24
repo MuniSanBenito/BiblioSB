@@ -8,16 +8,20 @@ type CiudadanosSearchFormProps = {
   q: string
   page: number
   limit: number
+  sort: string
+  order: string
 }
 
-function clearHref(page: number, limit: number) {
+function clearHref(page: number, limit: number, sort: string, order: string) {
   const params = new URLSearchParams()
   params.set('page', String(page))
   params.set('limit', String(limit))
+  params.set('sort', sort)
+  params.set('order', order)
   return `/panel/ciudadanos?${params.toString()}`
 }
 
-export function CiudadanosSearchForm({ q, page, limit }: CiudadanosSearchFormProps) {
+export function CiudadanosSearchForm({ q, page, limit, sort, order }: CiudadanosSearchFormProps) {
   const hintId = 'ciudadanos-search-hint'
   const inputId = 'ciudadanos-q'
   const canClear = Boolean(q)
@@ -27,6 +31,8 @@ export function CiudadanosSearchForm({ q, page, limit }: CiudadanosSearchFormPro
       {/* Nueva búsqueda siempre vuelve a la primera página. */}
       <input type="hidden" name="page" value="1" />
       <input type="hidden" name="limit" value={String(limit)} />
+      <input type="hidden" name="sort" value={sort} />
+      <input type="hidden" name="order" value={order} />
       <label className={styles.label} htmlFor={inputId}>
         Buscar ciudadanos
       </label>
@@ -40,7 +46,7 @@ export function CiudadanosSearchForm({ q, page, limit }: CiudadanosSearchFormPro
         <div className={styles.actions}>
           <ToolbarButton type="submit">Buscar</ToolbarButton>
           {canClear ? (
-            <Link className={styles.clear} href={clearHref(page, limit)}>
+            <Link className={styles.clear} href={clearHref(page, limit, sort, order)}>
               Limpiar
             </Link>
           ) : (

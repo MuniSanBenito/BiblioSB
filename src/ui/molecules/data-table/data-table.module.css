@@ -30,11 +30,64 @@
 }
 
 .th {
-  padding: 0.75rem 1rem;
+  padding: 0;
   border-block-end: 2px solid var(--color-forest);
   background: var(--color-paper);
   text-align: start;
   white-space: nowrap;
+  /* El hover vive en el th para no pintar encima de columnas vecinas. */
+  overflow: hidden;
+}
+
+.th:hover {
+  background: color-mix(in srgb, var(--color-lime) 25%, var(--color-paper));
+}
+
+/* Link ocupa la celda; padding vive acá por el target de click. */
+.sortLink {
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+  gap: 0.375rem;
+  min-block-size: 1.5rem;
+  inline-size: 100%;
+  max-inline-size: 100%;
+  padding: 0.75rem 1rem;
+  color: inherit;
+  font: inherit;
+  font-weight: inherit;
+  text-decoration: none;
+}
+
+.sortLink:focus-visible {
+  outline: 2px solid var(--color-forest);
+  outline-offset: -2px;
+}
+
+.sortIcon {
+  inline-size: 0.75rem;
+  block-size: 1rem;
+  flex-shrink: 0;
+  fill: currentColor;
+  opacity: 0.35;
+}
+
+/* Hint sutil en columnas inactivas; activo resalta una punta. */
+.sortUp,
+.sortDown {
+  opacity: 1;
+}
+
+.th[aria-sort] .sortIcon {
+  opacity: 1;
+}
+
+.th[aria-sort='ascending'] .sortDown {
+  opacity: 0.25;
+}
+
+.th[aria-sort='descending'] .sortUp {
+  opacity: 0.25;
 }
 
 .td,

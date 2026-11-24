@@ -16,9 +16,11 @@ const LIMIT_OPTIONS = [
 type PageSizeFieldProps = {
   q: string
   limit: number
+  sort: string
+  order: string
 }
 
-export function PageSizeField({ q, limit }: PageSizeFieldProps) {
+export function PageSizeField({ q, limit, sort, order }: PageSizeFieldProps) {
   const formRef = useRef<HTMLFormElement>(null)
 
   return (
@@ -26,6 +28,8 @@ export function PageSizeField({ q, limit }: PageSizeFieldProps) {
       {/* Cambiar el tamaño reinicia a página 1. */}
       <input type="hidden" name="page" value="1" />
       {q ? <input type="hidden" name="q" value={q} /> : null}
+      <input type="hidden" name="sort" value={sort} />
+      <input type="hidden" name="order" value={order} />
       <label className={styles.label} htmlFor="ciudadanos-limit">
         Mostrar
       </label>

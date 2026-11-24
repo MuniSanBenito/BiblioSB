@@ -15,10 +15,27 @@ export const metadata: Metadata = {
 
 const ALLOWED_LIMITS = new Set([10, 20, 30, 50, 100])
 
+// Campos de columna permitidos para ordenar vía searchParams.
+const ALLOWED_SORTS = new Set([
+  'nombre',
+  'domicilio',
+  'tipo_documento',
+  'numero_documento',
+  'email',
+  'telefono_web',
+])
+
+type SortField =
+  'nombre' | 'domicilio' | 'tipo_documento' | 'numero_documento' | 'email' | 'telefono_web'
+
+type SortOrder = 'asc' | 'desc'
+
 type SearchParams = Promise<{
   q?: string
   page?: string
   limit?: string
+  sort?: string
+  order?: string
 }>
 
 type FindResult = {
@@ -42,17 +59,32 @@ function parsePage(raw: string | undefined) {
   return 1
 }
 
+function parseSort(raw: string | undefined): SortField {
+  if (raw && ALLOWED_SORTS.has(raw)) return raw as SortField
+  return 'nombre'
+}
+
+function parseOrder(raw: string | undefined): SortOrder {
+  if (raw === 'desc') return 'desc'
+  return 'asc'
+}
+
 export default async function Page({ searchParams }: { searchParams: SearchParams }) {
   const params = await searchParams
   const q = params.q?.trim() ?? ''
   const page = parsePage(params.page)
   const limit = parseLimit(params.limit)
+  const sort = parseSort(params.sort)
+  const order = parseOrder(params.order)
+  // Payload: prefijo "-" = descendente.
+  const payloadSort = order === 'desc' ? `-${sort}` : sort
 
   // where solo si hay texto; contains cubre nombre, documento y email.
   const result = (await globalSdk.find({
     collection: 'contribuyentes',
     page,
     limit,
+    sort: payloadSort,
     ...(q
       ? {
           where: {
@@ -80,19 +112,21 @@ export default async function Page({ searchParams }: { searchParams: SearchParam
     <article>
       <h1>Ciudadanos</h1>
       <p>Buscá y consultá contribuyentes registrados en la biblioteca.</p>
-      <CiudadanosSearchForm q={q} page={currentPage} limit={limit} />
-      <CiudadanosTable docs={result.docs} />
+      <CiudadanosSearchForm q={q} page={currentPage} limit={limit} sort={sort} order={order} />
+      <CiudadanosTable docs={result.docs} q={q} limit={limit} sort={sort} order={order} />
       <div className={styles.footer}>
         <PaginationNav
           q={q}
           page={currentPage}
           limit={limit}
+          sort={sort}
+          order={order}
           totalPages={result.totalPages ?? 0}
           totalDocs={result.totalDocs ?? 0}
           hasPrevPage={Boolean(result.hasPrevPage)}
           hasNextPage={Boolean(result.hasNextPage)}
         />
-        <PageSizeField q={q} limit={limit} />
+        <PageSizeField q={q} limit={limit} sort={sort} order={order} />
       </div>
     </article>
   )

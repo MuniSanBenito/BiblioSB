@@ -1,11 +1,19 @@
 // Cascarón de tabla accesible; las filas las arma el organism que lo usa.
+import Link from 'next/link'
 import type { CSSProperties, ReactNode } from 'react'
 import styles from './data-table.module.css'
+
+export type DataTableHeader = {
+  label: string
+  href: string
+  // Solo en la columna activa; omitir en el resto.
+  ariaSort?: 'ascending' | 'descending'
+}
 
 type DataTableProps = {
   caption: string
   captionId: string
-  headers: string[]
+  headers: DataTableHeader[]
   isEmpty: boolean
   emptyMessage: string
   children: ReactNode
@@ -21,12 +29,12 @@ export function DataTable({
 }: DataTableProps) {
   // Labels para el layout apilado en contenedor angosto.
   const labelVars = {
-    '--label-1': `"${headers[0] ?? ''}"`,
-    '--label-2': `"${headers[1] ?? ''}"`,
-    '--label-3': `"${headers[2] ?? ''}"`,
-    '--label-4': `"${headers[3] ?? ''}"`,
-    '--label-5': `"${headers[4] ?? ''}"`,
-    '--label-6': `"${headers[5] ?? ''}"`,
+    '--label-1': `"${headers[0]?.label ?? ''}"`,
+    '--label-2': `"${headers[1]?.label ?? ''}"`,
+    '--label-3': `"${headers[2]?.label ?? ''}"`,
+    '--label-4': `"${headers[3]?.label ?? ''}"`,
+    '--label-5': `"${headers[4]?.label ?? ''}"`,
+    '--label-6': `"${headers[5]?.label ?? ''}"`,
   } as CSSProperties
 
   return (
@@ -38,8 +46,25 @@ export function DataTable({
         <thead className={styles.thead}>
           <tr className={styles.tr}>
             {headers.map((header) => (
-              <th key={header} className={styles.th} scope="col">
-                {header}
+              <th
+                key={header.label}
+                className={styles.th}
+                scope="col"
+                {...(header.ariaSort ? { 'aria-sort': header.ariaSort } : {})}
+              >
+                <Link className={styles.sortLink} href={header.href}>
+                  <span>{header.label}</span>
+                  {/* Decorativo; el estado real está en aria-sort del th. */}
+                  <svg
+                    className={styles.sortIcon}
+                    viewBox="0 0 12 16"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <path className={styles.sortUp} d="M6 2 L10 7 H2 Z" />
+                    <path className={styles.sortDown} d="M6 14 L2 9 H10 Z" />
+                  </svg>
+                </Link>
               </th>
             ))}
           </tr>
