@@ -19,7 +19,7 @@ export function LoginForm() {
   const [error, setError] = useState('')
   const [pending, setPending] = useState(false)
 
-  async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
+  const handleSubmit = async (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault()
 
     if (pending) {

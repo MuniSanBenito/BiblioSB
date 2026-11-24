@@ -38,7 +38,7 @@ export function PanelLayout({ children }: PanelLayoutProps) {
   useEffect(() => {
     if (!open || wide) return
 
-    function onKey(event: KeyboardEvent) {
+    const onKey = (event: KeyboardEvent) => {
       if (event.key !== 'Escape') return
       setOpen(false)
       menuButtonRef.current?.focus()
@@ -48,7 +48,7 @@ export function PanelLayout({ children }: PanelLayoutProps) {
     return () => window.removeEventListener('keydown', onKey)
   }, [open, wide])
 
-  function closeMenu() {
+  const closeMenu = () => {
     setOpen(false)
   }
 

@@ -19,8 +19,11 @@ export function SideNav({ hidden, onNavigate }: SideNavProps) {
   const [pending, setPending] = useState(false)
   const [error, setError] = useState('')
 
-  async function handleSignOut() {
-    if (pending) return
+  const handleSignOut = async () => {
+    if (pending) {
+      return
+    }
+
     setError('')
     setPending(true)
 

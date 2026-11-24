@@ -10,7 +10,9 @@ type ToastProps = {
 }
 
 export function Toast({ message, onClose }: ToastProps) {
-  if (typeof document === 'undefined') return null
+  if (typeof document === 'undefined') {
+    return null
+  }
 
   return createPortal(
     <div className={styles.toast}>

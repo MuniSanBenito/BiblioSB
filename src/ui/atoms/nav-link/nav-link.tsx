@@ -4,6 +4,8 @@ import Link, { type LinkProps } from 'next/link'
 import { usePathname } from 'next/navigation'
 import type { ComponentPropsWithoutRef } from 'react'
 
+const normalize = (p: string) => (p.length > 1 ? p.replace(/\/$/, '') : p)
+
 type NavLinkProps = LinkProps &
   Omit<ComponentPropsWithoutRef<'a'>, keyof LinkProps> & {
     exact?: boolean
@@ -22,7 +24,6 @@ export function NavLink({
   const targetPath = typeof href === 'string' ? href : (href.pathname ?? '')
 
   // Normalizamos barras finales por si acaso
-  const normalize = (p: string) => (p.length > 1 ? p.replace(/\/$/, '') : p)
   const current = normalize(pathname)
   const target = normalize(targetPath)
 

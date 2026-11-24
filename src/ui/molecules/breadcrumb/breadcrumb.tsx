@@ -1,5 +1,3 @@
-'use client'
-
 // Ruta de la pantalla. El último paso es la página actual y no es un enlace.
 import Link from 'next/link'
 import styles from './breadcrumb.module.css'
