@@ -17,6 +17,14 @@ const COLUMNS: { field: SortField; label: string }[] = [
   { field: 'telefono_web', label: 'Teléfono' },
 ]
 
+// Códigos AFIP → etiqueta legible.
+const TIPO_DOCUMENTO_LABEL: Record<number, string> = {
+  80: 'CUIT',
+  89: 'LE',
+  90: 'LC',
+  96: 'DNI',
+}
+
 type CiudadanoRow = Pick<
   Contribuyente,
   'id' | 'nombre' | 'domicilio' | 'tipo_documento' | 'numero_documento' | 'email' | 'telefono_web'
@@ -35,6 +43,11 @@ function cell(value: string | number | null | undefined) {
     return '—'
   }
   return String(value)
+}
+
+function tipoDocumentoLabel(value: number | null | undefined) {
+  if (value === null || value === undefined) return '—'
+  return TIPO_DOCUMENTO_LABEL[value] ?? String(value)
 }
 
 // Misma columna togglea; otra columna arranca ASC. Siempre page=1.
@@ -85,7 +98,7 @@ export function CiudadanosTable({ docs, q, limit, sort, order }: CiudadanosTable
             {cell(doc.nombre)}
           </th>
           <td className={tableStyles.td}>{cell(doc.domicilio)}</td>
-          <td className={tableStyles.td}>{cell(doc.tipo_documento)}</td>
+          <td className={tableStyles.td}>{tipoDocumentoLabel(doc.tipo_documento)}</td>
           <td className={tableStyles.td}>{cell(doc.numero_documento)}</td>
           <td className={tableStyles.td}>{cell(doc.email)}</td>
           <td className={tableStyles.td}>{cell(doc.telefono_web)}</td>
