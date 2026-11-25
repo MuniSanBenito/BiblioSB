@@ -1,0 +1,26 @@
+/* Columna única; el hueco entre grupos supera el de etiqueta–campo. */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 36rem;
+}
+
+.fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-inline-size: 0;
+}
+
+.legend {
+  padding: 0;
+  margin-block-end: 0.25rem;
+  color: var(--color-forest);
+  font-weight: 800;
+  font-size: 1.125rem;
+}

@@ -1,0 +1,11 @@
+/* Misma proximidad etiqueta–campo que TextField. */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.label {
+  font: inherit;
+  font-weight: 700;
+}

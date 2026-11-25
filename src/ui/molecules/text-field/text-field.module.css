@@ -9,3 +9,15 @@
   font: inherit;
   font-weight: 700;
 }
+
+/* Solo visible tras interacción (:user-invalid en el input hermano previo). */
+.error {
+  display: none;
+  margin: 0;
+  color: var(--color-ink);
+  font-size: 0.875rem;
+}
+
+.field:has(:user-invalid) .error {
+  display: block;
+}

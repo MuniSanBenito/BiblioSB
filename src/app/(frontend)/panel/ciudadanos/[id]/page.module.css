@@ -1,0 +1,15 @@
+/* Espacio entre el enlace de vuelta, el título y el formulario. */
+.article {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.back {
+  margin: 0;
+}
+
+.back a {
+  color: var(--color-forest);
+  font-weight: 700;
+}

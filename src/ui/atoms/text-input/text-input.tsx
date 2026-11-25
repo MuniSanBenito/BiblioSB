@@ -6,11 +6,13 @@ import styles from './text-input.module.css'
 type TextInputProps = {
   id: string
   name: string
-  type: 'email' | 'password' | 'text'
+  type: 'email' | 'password' | 'text' | 'tel' | 'date'
   autoComplete: string
   value: string
   onChange: (value: string) => void
+  required?: boolean
   enterKeyHint?: 'next' | 'done'
+  inputMode?: 'text' | 'email' | 'tel' | 'numeric'
   spellCheck?: boolean
   autoCapitalize?: 'off'
   ariaInvalid?: boolean
@@ -24,7 +26,9 @@ export function TextInput({
   autoComplete,
   value,
   onChange,
+  required,
   enterKeyHint,
+  inputMode,
   spellCheck,
   autoCapitalize,
   ariaInvalid,
@@ -38,8 +42,9 @@ export function TextInput({
       type={type}
       autoComplete={autoComplete}
       value={value}
-      required
+      required={required}
       enterKeyHint={enterKeyHint}
+      inputMode={inputMode}
       spellCheck={spellCheck}
       autoCapitalize={autoCapitalize}
       aria-invalid={ariaInvalid || undefined}

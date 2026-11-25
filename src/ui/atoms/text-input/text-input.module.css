@@ -11,6 +11,7 @@
   font: inherit;
 }
 
-.input[aria-invalid="true"] {
+.input[aria-invalid='true'],
+.input:user-invalid {
   border-color: var(--color-ink);
 }

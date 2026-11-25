@@ -34,6 +34,7 @@ export function PasswordField({
         autoComplete="current-password"
         value={value}
         onChange={onChange}
+        required
         enterKeyHint="done"
         spellCheck={false}
         autoCapitalize="off"

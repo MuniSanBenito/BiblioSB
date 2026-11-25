@@ -11,3 +11,7 @@
   font: inherit;
   cursor: pointer;
 }
+
+.select:user-invalid {
+  border-color: var(--color-ink);
+}

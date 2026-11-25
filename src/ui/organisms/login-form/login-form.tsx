@@ -84,6 +84,7 @@ export function LoginForm() {
         autoComplete="username"
         value={email}
         onChange={clearError(setEmail)}
+        required
         enterKeyHint="next"
         spellCheck={false}
         autoCapitalize="off"
