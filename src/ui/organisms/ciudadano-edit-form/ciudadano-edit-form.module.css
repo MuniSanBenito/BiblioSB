@@ -1,26 +1,60 @@
-/* Columna única; el hueco entre grupos supera el de etiqueta–campo. */
+/* Formulario en grilla: 1 col en angosto, 6 pistas cuando hay aire. */
 .form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.75rem;
   width: 100%;
-  max-width: 36rem;
+  max-width: 44rem;
+  container: edit-form / inline-size;
 }
 
 .fieldset {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 1.25rem;
   margin: 0;
-  padding: 0;
-  border: 0;
+  padding: 1.25rem 1.35rem 1.35rem;
+  border: 1px solid color-mix(in srgb, var(--color-forest) 28%, transparent);
+  border-radius: 0.375rem;
+  background: color-mix(in srgb, var(--color-lime) 10%, var(--color-paper));
   min-inline-size: 0;
 }
 
 .legend {
-  padding: 0;
-  margin-block-end: 0.25rem;
+  grid-column: 1 / -1;
+  padding-inline: 0.25rem;
+  margin-block-end: 0;
   color: var(--color-forest);
   font-weight: 800;
   font-size: 1.125rem;
+}
+
+/* Wrappers de celda; el span solo aplica con varias columnas. */
+.span2,
+.span3,
+.span4,
+.span6 {
+  min-inline-size: 0;
+}
+
+@container edit-form (inline-size > 36rem) {
+  .fieldset {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .span6 {
+    grid-column: span 6;
+  }
+
+  .span4 {
+    grid-column: span 4;
+  }
+
+  .span3 {
+    grid-column: span 3;
+  }
+
+  .span2 {
+    grid-column: span 2;
+  }
 }

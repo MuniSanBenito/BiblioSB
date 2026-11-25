@@ -121,196 +121,230 @@ export function CiudadanoEditForm({ id, initial }: CiudadanoEditFormProps) {
     >
       <fieldset className={styles.fieldset}>
         <legend className={styles.legend}>Identidad</legend>
-        <TextField
-          id="nombre"
-          label="Nombre"
-          name="nombre"
-          type="text"
-          autoComplete="name"
-          value={nombre}
-          onChange={setNombre}
-          required
-          enterKeyHint="next"
-        />
-        <SelectField
-          id="tipo_documento"
-          label="Tipo de documento"
-          name="tipo_documento"
-          options={TIPO_DOCUMENTO_OPTIONS}
-          value={tipoDocumento}
-          onChange={setTipoDocumento}
-        />
-        <TextField
-          id="numero_documento"
-          label="Número de documento"
-          name="numero_documento"
-          type="text"
-          autoComplete="off"
-          value={numeroDocumento}
-          onChange={setNumeroDocumento}
-          enterKeyHint="next"
-          spellCheck={false}
-          autoCapitalize="off"
-        />
-        <TextField
-          id="cuit"
-          label="CUIT / CUIL"
-          name="cuit"
-          type="text"
-          autoComplete="off"
-          value={cuit}
-          onChange={setCuit}
-          enterKeyHint="next"
-          inputMode="numeric"
-          spellCheck={false}
-          autoCapitalize="off"
-        />
-        <SelectField
-          id="sexo"
-          label="Sexo"
-          name="sexo"
-          options={SEXO_OPTIONS}
-          value={sexo}
-          onChange={setSexo}
-        />
-        <TextField
-          id="nacionalidad"
-          label="Nacionalidad"
-          name="nacionalidad"
-          type="text"
-          autoComplete="country-name"
-          value={nacionalidad}
-          onChange={setNacionalidad}
-          enterKeyHint="next"
-        />
-        <TextField
-          id="fecha_nacimiento"
-          label="Fecha de nacimiento"
-          name="fecha_nacimiento"
-          type="date"
-          autoComplete="bday"
-          value={fechaNacimiento}
-          onChange={setFechaNacimiento}
-          enterKeyHint="next"
-        />
+        <div className={styles.span6}>
+          <TextField
+            id="nombre"
+            label="Nombre"
+            name="nombre"
+            type="text"
+            autoComplete="name"
+            value={nombre}
+            onChange={setNombre}
+            required
+            enterKeyHint="next"
+          />
+        </div>
+        <div className={styles.span3}>
+          <SelectField
+            id="tipo_documento"
+            label="Tipo de documento"
+            name="tipo_documento"
+            options={TIPO_DOCUMENTO_OPTIONS}
+            value={tipoDocumento}
+            onChange={setTipoDocumento}
+          />
+        </div>
+        <div className={styles.span3}>
+          <TextField
+            id="numero_documento"
+            label="Número de documento"
+            name="numero_documento"
+            type="text"
+            autoComplete="off"
+            value={numeroDocumento}
+            onChange={setNumeroDocumento}
+            enterKeyHint="next"
+            spellCheck={false}
+            autoCapitalize="off"
+          />
+        </div>
+        <div className={styles.span3}>
+          <TextField
+            id="cuit"
+            label="CUIT / CUIL"
+            name="cuit"
+            type="text"
+            autoComplete="off"
+            value={cuit}
+            onChange={setCuit}
+            enterKeyHint="next"
+            inputMode="numeric"
+            spellCheck={false}
+            autoCapitalize="off"
+          />
+        </div>
+        <div className={styles.span3}>
+          <SelectField
+            id="sexo"
+            label="Sexo"
+            name="sexo"
+            options={SEXO_OPTIONS}
+            value={sexo}
+            onChange={setSexo}
+          />
+        </div>
+        <div className={styles.span3}>
+          <TextField
+            id="nacionalidad"
+            label="Nacionalidad"
+            name="nacionalidad"
+            type="text"
+            autoComplete="country-name"
+            value={nacionalidad}
+            onChange={setNacionalidad}
+            enterKeyHint="next"
+          />
+        </div>
+        <div className={styles.span3}>
+          <TextField
+            id="fecha_nacimiento"
+            label="Fecha de nacimiento"
+            name="fecha_nacimiento"
+            type="date"
+            autoComplete="bday"
+            value={fechaNacimiento}
+            onChange={setFechaNacimiento}
+            enterKeyHint="next"
+          />
+        </div>
       </fieldset>
 
       <fieldset className={styles.fieldset}>
         <legend className={styles.legend}>Domicilio</legend>
-        <TextField
-          id="domicilio"
-          label="Domicilio"
-          name="domicilio"
-          type="text"
-          autoComplete="street-address"
-          value={domicilio}
-          onChange={setDomicilio}
-          enterKeyHint="next"
-        />
-        <TextField
-          id="domicilio_altura"
-          label="Altura"
-          name="domicilio_altura"
-          type="text"
-          autoComplete="off"
-          value={domicilioAltura}
-          onChange={setDomicilioAltura}
-          enterKeyHint="next"
-        />
-        <TextField
-          id="domicilio_calle_secundaria"
-          label="Entre calle"
-          name="domicilio_calle_secundaria"
-          type="text"
-          autoComplete="off"
-          value={domicilioCalleSecundaria}
-          onChange={setDomicilioCalleSecundaria}
-          enterKeyHint="next"
-        />
-        <TextField
-          id="domicilio_torre"
-          label="Torre"
-          name="domicilio_torre"
-          type="text"
-          autoComplete="off"
-          value={domicilioTorre}
-          onChange={setDomicilioTorre}
-          enterKeyHint="next"
-        />
-        <TextField
-          id="domicilio_piso"
-          label="Piso"
-          name="domicilio_piso"
-          type="text"
-          autoComplete="address-level4"
-          value={domicilioPiso}
-          onChange={setDomicilioPiso}
-          enterKeyHint="next"
-        />
-        <TextField
-          id="domicilio_depto"
-          label="Departamento"
-          name="domicilio_depto"
-          type="text"
-          autoComplete="off"
-          value={domicilioDepto}
-          onChange={setDomicilioDepto}
-          enterKeyHint="next"
-        />
+        <div className={styles.span4}>
+          <TextField
+            id="domicilio"
+            label="Domicilio"
+            name="domicilio"
+            type="text"
+            autoComplete="street-address"
+            value={domicilio}
+            onChange={setDomicilio}
+            enterKeyHint="next"
+          />
+        </div>
+        <div className={styles.span2}>
+          <TextField
+            id="domicilio_altura"
+            label="Altura"
+            name="domicilio_altura"
+            type="text"
+            autoComplete="off"
+            value={domicilioAltura}
+            onChange={setDomicilioAltura}
+            enterKeyHint="next"
+          />
+        </div>
+        <div className={styles.span6}>
+          <TextField
+            id="domicilio_calle_secundaria"
+            label="Entre calle"
+            name="domicilio_calle_secundaria"
+            type="text"
+            autoComplete="off"
+            value={domicilioCalleSecundaria}
+            onChange={setDomicilioCalleSecundaria}
+            enterKeyHint="next"
+          />
+        </div>
+        <div className={styles.span2}>
+          <TextField
+            id="domicilio_torre"
+            label="Torre"
+            name="domicilio_torre"
+            type="text"
+            autoComplete="off"
+            value={domicilioTorre}
+            onChange={setDomicilioTorre}
+            enterKeyHint="next"
+          />
+        </div>
+        <div className={styles.span2}>
+          <TextField
+            id="domicilio_piso"
+            label="Piso"
+            name="domicilio_piso"
+            type="text"
+            autoComplete="address-level4"
+            value={domicilioPiso}
+            onChange={setDomicilioPiso}
+            enterKeyHint="next"
+          />
+        </div>
+        <div className={styles.span2}>
+          <TextField
+            id="domicilio_depto"
+            label="Departamento"
+            name="domicilio_depto"
+            type="text"
+            autoComplete="off"
+            value={domicilioDepto}
+            onChange={setDomicilioDepto}
+            enterKeyHint="next"
+          />
+        </div>
       </fieldset>
 
       <fieldset className={styles.fieldset}>
         <legend className={styles.legend}>Contacto</legend>
-        <TextField
-          id="email"
-          label="Email"
-          name="email"
-          type="email"
-          autoComplete="email"
-          value={email}
-          onChange={setEmail}
-          enterKeyHint="next"
-          spellCheck={false}
-          autoCapitalize="off"
-          errorId="email-error"
-          errorMessage="Ingresá un email válido, por ejemplo vos@ejemplo.com."
-        />
-        <TextField
-          id="email_secundario"
-          label="Email secundario"
-          name="email_secundario"
-          type="email"
-          autoComplete="email"
-          value={emailSecundario}
-          onChange={setEmailSecundario}
-          enterKeyHint="next"
-          spellCheck={false}
-          autoCapitalize="off"
-          errorId="email-secundario-error"
-          errorMessage="Ingresá un email válido, por ejemplo vos@ejemplo.com."
-        />
-        <TextField
-          id="telefono_web"
-          label="Teléfono"
-          name="telefono_web"
-          type="tel"
-          autoComplete="tel"
-          value={telefonoWeb}
-          onChange={setTelefonoWeb}
-          enterKeyHint="next"
-          inputMode="tel"
-        />
-        <TextField
-          id="telefono_secundario"
-          label="Teléfono secundario"
-          name="telefono_secundario"
-          type="tel"
-          autoComplete="tel"
-          value={telefonoSecundario}
-          onChange={setTelefonoSecundario}
-          enterKeyHint="done"
-          inputMode="tel"
-        />
+        <div className={styles.span3}>
+          <TextField
+            id="email"
+            label="Email"
+            name="email"
+            type="email"
+            autoComplete="email"
+            value={email}
+            onChange={setEmail}
+            enterKeyHint="next"
+            spellCheck={false}
+            autoCapitalize="off"
+            errorId="email-error"
+            errorMessage="Ingresá un email válido, por ejemplo vos@ejemplo.com."
+          />
+        </div>
+        <div className={styles.span3}>
+          <TextField
+            id="email_secundario"
+            label="Email secundario"
+            name="email_secundario"
+            type="email"
+            autoComplete="email"
+            value={emailSecundario}
+            onChange={setEmailSecundario}
+            enterKeyHint="next"
+            spellCheck={false}
+            autoCapitalize="off"
+            errorId="email-secundario-error"
+            errorMessage="Ingresá un email válido, por ejemplo vos@ejemplo.com."
+          />
+        </div>
+        <div className={styles.span3}>
+          <TextField
+            id="telefono_web"
+            label="Teléfono"
+            name="telefono_web"
+            type="tel"
+            autoComplete="tel"
+            value={telefonoWeb}
+            onChange={setTelefonoWeb}
+            enterKeyHint="next"
+            inputMode="tel"
+          />
+        </div>
+        <div className={styles.span3}>
+          <TextField
+            id="telefono_secundario"
+            label="Teléfono secundario"
+            name="telefono_secundario"
+            type="tel"
+            autoComplete="tel"
+            value={telefonoSecundario}
+            onChange={setTelefonoSecundario}
+            enterKeyHint="done"
+            inputMode="tel"
+          />
+        </div>
       </fieldset>
 
       <Button disabled={pending}>{pending ? 'Guardando' : 'Guardar cambios'}</Button>
