@@ -349,7 +349,9 @@ export function CiudadanoEditForm({ id, initial }: CiudadanoEditFormProps) {
 
       <Button disabled={pending}>{pending ? 'Guardando' : 'Guardar cambios'}</Button>
 
-      {toast ? <Toast message={toast.message} onClose={() => setToast(null)} /> : null}
+      {toast ? (
+        <Toast kind={toast.kind} message={toast.message} onClose={() => setToast(null)} />
+      ) : null}
     </form>
   )
 }
