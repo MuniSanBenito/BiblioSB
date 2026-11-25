@@ -92,18 +92,46 @@
 
 .td,
 .rowHead {
-  padding: 0.75rem 1rem;
   border-block-end: 1px solid color-mix(in srgb, var(--color-forest) 25%, transparent);
   text-align: start;
   white-space: nowrap;
 }
 
+.td {
+  padding: 0.75rem 1rem;
+}
+
+/* Padding en el link para hit area; rowHead sin padding propio. */
 .rowHead {
+  padding: 0;
   position: sticky;
   inset-inline-start: 0;
   z-index: 0;
   background: var(--color-paper);
   font-weight: 700;
+}
+
+/* Link de fila: misma idea que .sortLink (celda completa + focus visible). */
+.rowLink {
+  display: block;
+  box-sizing: border-box;
+  min-block-size: 1.5rem;
+  inline-size: 100%;
+  max-inline-size: 100%;
+  padding: 0.75rem 1rem;
+  color: inherit;
+  font: inherit;
+  font-weight: inherit;
+  text-decoration: none;
+}
+
+.rowLink:focus-visible {
+  outline: 2px solid var(--color-forest);
+  outline-offset: -2px;
+}
+
+.rowLink:hover {
+  background: color-mix(in srgb, var(--color-lime) 25%, var(--color-paper));
 }
 
 .empty {

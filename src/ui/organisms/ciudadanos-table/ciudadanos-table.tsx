@@ -2,6 +2,7 @@
 import type { Contribuyente } from '@/data/contribuyente'
 import { DataTable, type DataTableHeader } from '@/ui/molecules/data-table/data-table'
 import tableStyles from '@/ui/molecules/data-table/data-table.module.css'
+import Link from 'next/link'
 
 type SortField =
   'nombre' | 'domicilio' | 'tipo_documento' | 'numero_documento' | 'email' | 'telefono_web'
@@ -42,11 +43,15 @@ function cell(value: string | number | null | undefined) {
   if (value === null || value === undefined || value === '') {
     return '—'
   }
+
   return String(value)
 }
 
 function tipoDocumentoLabel(value: number | null | undefined) {
-  if (value === null || value === undefined) return '—'
+  if (value === null || value === undefined) {
+    return '—'
+  }
+
   return TIPO_DOCUMENTO_LABEL[value] ?? String(value)
 }
 
@@ -58,7 +63,11 @@ function sortHref(field: SortField, q: string, limit: number, sort: SortField, o
   params.set('limit', String(limit))
   params.set('sort', field)
   params.set('order', nextOrder)
-  if (q) params.set('q', q)
+
+  if (q) {
+    params.set('q', q)
+  }
+
   return `/panel/ciudadanos?${params.toString()}`
 }
 
@@ -73,10 +82,12 @@ function buildHeaders(
       label,
       href: sortHref(field, q, limit, sort, order),
     }
+
     // Solo la columna activa lleva aria-sort.
     if (field === sort) {
       header.ariaSort = order === 'asc' ? 'ascending' : 'descending'
     }
+
     return header
   })
 }
@@ -95,7 +106,10 @@ export function CiudadanosTable({ docs, q, limit, sort, order }: CiudadanosTable
       {docs.map((doc) => (
         <tr key={doc.id} className={tableStyles.tr}>
           <th className={tableStyles.rowHead} scope="row">
-            {cell(doc.nombre)}
+            {/* Solo el nombre navega al detalle; resto de la fila no es clickeable. */}
+            <Link className={tableStyles.rowLink} href={`/panel/ciudadanos/${doc.id}`}>
+              {cell(doc.nombre)}
+            </Link>
           </th>
           <td className={tableStyles.td}>{cell(doc.domicilio)}</td>
           <td className={tableStyles.td}>{tipoDocumentoLabel(doc.tipo_documento)}</td>
