@@ -40,7 +40,8 @@ export function DataTable({
   return (
     <div className={styles.wrapper} role="region" aria-labelledby={captionId} tabIndex={0}>
       <table className={styles.table} style={labelVars}>
-        <caption id={captionId} className={styles.caption}>
+        {/* Solo a11y: nombra la tabla y el region scrolleable. */}
+        <caption id={captionId} className="visually-hidden">
           {caption}
         </caption>
         <thead className={styles.thead}>

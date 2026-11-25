@@ -111,7 +111,6 @@ export default async function Page({ searchParams }: { searchParams: SearchParam
   return (
     <article>
       <h1>Ciudadanos</h1>
-      <p>Buscá y consultá contribuyentes registrados en la biblioteca.</p>
       <CiudadanosSearchForm q={q} page={currentPage} limit={limit} sort={sort} order={order} />
       <CiudadanosTable docs={result.docs} q={q} limit={limit} sort={sort} order={order} />
       <div className={styles.footer}>

@@ -15,14 +15,6 @@
   font: inherit;
 }
 
-.caption {
-  padding: 0.75rem 1rem;
-  caption-side: top;
-  text-align: start;
-  font-weight: 700;
-  color: var(--color-ink);
-}
-
 .thead {
   position: sticky;
   inset-block-start: 0;
@@ -37,6 +29,13 @@
   white-space: nowrap;
   /* El hover vive en el th para no pintar encima de columnas vecinas. */
   overflow: hidden;
+}
+
+/* Misma pineada horizontal que .rowHead; z-index arriba del body. */
+.th:first-child {
+  position: sticky;
+  inset-inline-start: 0;
+  z-index: 2;
 }
 
 .th:hover {
