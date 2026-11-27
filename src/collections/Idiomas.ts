@@ -4,8 +4,10 @@ import type { CollectionConfig } from 'payload'
 export const IdiomasCollection: CollectionConfig = {
   slug: 'idiomas',
   admin: {
-    useAsTitle: 'nombre',
     description: 'Lista de idiomas disponibles para clasificar los materiales del catálogo.',
+  },
+  access: {
+    delete: () => false,
   },
   fields: [
     {

@@ -11,6 +11,7 @@ import { SociosCollection } from './collections/Socios'
 import { SoportesCollection } from './collections/Soportes'
 import { TemasCollection } from './collections/Temas'
 import { UsersCollection } from './collections/Users'
+import { ConfiguracionPrestamos } from './globals/ConfiguracionPrestamos'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -34,6 +35,7 @@ export default buildConfig({
     TemasCollection,
     UsersCollection,
   ],
+  globals: [ConfiguracionPrestamos],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

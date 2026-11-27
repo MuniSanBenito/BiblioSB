@@ -97,8 +97,12 @@ export interface Config {
     defaultIDType: string;
   };
   fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    'configuracion-prestamos': ConfiguracionPrestamo;
+  };
+  globalsSelect: {
+    'configuracion-prestamos': ConfiguracionPrestamosSelect<false> | ConfiguracionPrestamosSelect<true>;
+  };
   locale: null;
   widgets: {
     collections: CollectionsWidget;
@@ -155,9 +159,9 @@ export interface Idioma {
 export interface Materiale {
   id: string;
   /**
-   * Número de registro y código de barras de la pieza; no se reutiliza.
+   * Número de registro y código de barras de la pieza; se asigna automáticamente y no se reutiliza.
    */
-  numero_registro: number;
+  numero_registro?: number | null;
   /**
    * Fecha en que la pieza ingresó al catálogo; puede quedar vacía si no se conoce.
    */
@@ -296,7 +300,11 @@ export interface Prestamo {
    */
   material: string | Materiale;
   /**
-   * Socio responsable del préstamo. El socio puede no estar vinculado aún a un ciudadano externo.
+   * Clave interna única: comparte el ID del material mientras el préstamo está abierto.
+   */
+  material_abierto_clave?: string | null;
+  /**
+   * Socio responsable del préstamo. Puede no estar vinculado aún a un ciudadano externo.
    */
   socio: string | Socio;
   /**
@@ -304,15 +312,15 @@ export interface Prestamo {
    */
   fecha_prestamo: string;
   /**
-   * Fecha límite prevista para devolver el material.
+   * Fecha límite calculada con los días configurados para el tipo de socio.
    */
-  fecha_vencimiento: string;
+  fecha_vencimiento?: string | null;
   /**
-   * Situación actual del movimiento. Los préstamos abiertos vencidos permanecen como prestados.
+   * Situación del movimiento. Un préstamo vencido sigue prestado hasta que se registre su devolución.
    */
   estado: 'prestado' | 'devuelto' | 'anulado';
   /**
-   * Fecha efectiva de devolución; queda vacía si no se conoce o sigue prestado.
+   * Fecha efectiva de devolución; el historial legado puede no tenerla.
    */
   fecha_devolucion?: string | null;
   /**
@@ -339,7 +347,7 @@ export interface Prestamo {
 export interface Socio {
   id: string;
   /**
-   * Documento normalizado, sin puntos ni ceros iniciales. La unicidad parcial queda pendiente para admitir socios legados sin DNI.
+   * Documento normalizado, sin puntos ni ceros iniciales. Es opcional para socios legados y único cuando está informado.
    */
   dni?: string | null;
   /**
@@ -355,21 +363,21 @@ export interface Socio {
    */
   origen: 'legado' | 'nuevo';
   /**
-   * Apellido del socio, conservado en este registro aunque cambie el dato externo.
+   * Apellido del socio; puede quedar vacío para departamentos. Se conserva aunque cambie el dato externo.
    */
-  apellido: string;
+  apellido?: string | null;
   /**
    * Nombre del socio, conservado en este registro aunque cambie el dato externo.
    */
   nombre: string;
   /**
-   * Clasificación heredada A/P; sus reglas de préstamo se definirán después.
+   * Clasificación del socio para aplicar los topes y plazos de préstamo configurados.
    */
-  tipo: 'A' | 'P';
+  tipo: 'A' | 'P' | 'D';
   /**
    * Grupo fijo del socio; los valores escolares heredados se normalizan al migrar.
    */
-  grupo: 'VECINO' | 'VECINA' | 'DOCENTE';
+  grupo?: ('VECINO' | 'VECINA' | 'DOCENTE' | 'DEPARTAMENTO') | null;
   /**
    * Observaciones internas sobre el socio.
    */
@@ -550,6 +558,7 @@ export interface MaterialesSelect<T extends boolean = true> {
  */
 export interface PrestamosSelect<T extends boolean = true> {
   material?: T;
+  material_abierto_clave?: T;
   socio?: T;
   fecha_prestamo?: T;
   fecha_vencimiento?: T;
@@ -664,6 +673,83 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * Topes de materiales abiertos y días de préstamo por tipo de socio.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "configuracion-prestamos".
+ */
+export interface ConfiguracionPrestamo {
+  id: string;
+  /**
+   * Reglas iniciales para socios de tipo A.
+   */
+  tipo_a: {
+    /**
+     * Cantidad máxima de préstamos abiertos para socios tipo A.
+     */
+    maximo_prestamos: number;
+    /**
+     * Duración del préstamo en días para socios tipo A.
+     */
+    dias_prestamo: number;
+  };
+  /**
+   * Reglas iniciales para socios de tipo P.
+   */
+  tipo_p: {
+    /**
+     * Cantidad máxima de préstamos abiertos para socios tipo P.
+     */
+    maximo_prestamos: number;
+    /**
+     * Duración del préstamo en días para socios tipo P.
+     */
+    dias_prestamo: number;
+  };
+  /**
+   * Reglas iniciales para préstamos a departamentos.
+   */
+  tipo_d: {
+    /**
+     * Cantidad máxima de préstamos abiertos para departamentos.
+     */
+    maximo_prestamos: number;
+    /**
+     * Duración del préstamo en días para departamentos.
+     */
+    dias_prestamo: number;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "configuracion-prestamos_select".
+ */
+export interface ConfiguracionPrestamosSelect<T extends boolean = true> {
+  tipo_a?:
+    | T
+    | {
+        maximo_prestamos?: T;
+        dias_prestamo?: T;
+      };
+  tipo_p?:
+    | T
+    | {
+        maximo_prestamos?: T;
+        dias_prestamo?: T;
+      };
+  tipo_d?:
+    | T
+    | {
+        maximo_prestamos?: T;
+        dias_prestamo?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

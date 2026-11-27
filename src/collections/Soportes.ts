@@ -4,8 +4,10 @@ import type { CollectionConfig } from 'payload'
 export const SoportesCollection: CollectionConfig = {
   slug: 'soportes',
   admin: {
-    useAsTitle: 'nombre',
     description: 'Lista de formatos físicos disponibles para clasificar cada material.',
+  },
+  access: {
+    delete: () => false,
   },
   fields: [
     {

@@ -4,9 +4,11 @@ import type { CollectionConfig } from 'payload'
 export const TemasCollection: CollectionConfig = {
   slug: 'temas',
   admin: {
-    useAsTitle: 'nombre',
     description:
       'Etiquetas temáticas usadas para clasificar y filtrar los materiales del catálogo.',
+  },
+  access: {
+    delete: () => false,
   },
   fields: [
     {
