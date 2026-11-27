@@ -67,6 +67,12 @@ export interface Config {
   };
   blocks: {};
   collections: {
+    idiomas: Idioma;
+    materiales: Materiale;
+    prestamos: Prestamo;
+    socios: Socio;
+    soportes: Soporte;
+    temas: Tema;
     users: User;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
@@ -75,6 +81,12 @@ export interface Config {
   };
   collectionsJoins: {};
   collectionsSelect: {
+    idiomas: IdiomasSelect<false> | IdiomasSelect<true>;
+    materiales: MaterialesSelect<false> | MaterialesSelect<true>;
+    prestamos: PrestamosSelect<false> | PrestamosSelect<true>;
+    socios: SociosSelect<false> | SociosSelect<true>;
+    soportes: SoportesSelect<false> | SoportesSelect<true>;
+    temas: TemasSelect<false> | TemasSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -114,6 +126,260 @@ export interface UserAuthOperations {
     email: string;
     password: string;
   };
+}
+/**
+ * Lista de idiomas disponibles para clasificar los materiales del catálogo.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "idiomas".
+ */
+export interface Idioma {
+  id: string;
+  /**
+   * Nombre único del idioma que se asignará a los materiales.
+   */
+  nombre: string;
+  /**
+   * Permite dejar de ofrecer el idioma sin cambiar materiales que ya lo usan.
+   */
+  activo?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Catálogo e inventario de cada pieza física de la biblioteca, incluidos libros y otros soportes.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "materiales".
+ */
+export interface Materiale {
+  id: string;
+  /**
+   * Número de registro y código de barras de la pieza; no se reutiliza.
+   */
+  numero_registro: number;
+  /**
+   * Fecha en que la pieza ingresó al catálogo; puede quedar vacía si no se conoce.
+   */
+  fecha_alta?: string | null;
+  /**
+   * Código de clasificación o ubicación heredado. Puede repetirse entre piezas.
+   */
+  signatura: string;
+  /**
+   * Título de la pieza tal como se identifica en el catálogo.
+   */
+  titulo: string;
+  /**
+   * Autor o responsable principal; se permite vacío para conservar registros legados incompletos.
+   */
+  autor?: string | null;
+  /**
+   * Segundo autor o responsable asociado a la pieza.
+   */
+  autor2?: string | null;
+  /**
+   * Dato heredado del campo OMR, conservado hasta confirmar su significado.
+   */
+  omr?: string | null;
+  /**
+   * Editorial que publicó la pieza, si se conoce.
+   */
+  editorial?: string | null;
+  /**
+   * ISBN o identificador editorial tal como figura en el registro; no se valida como único.
+   */
+  isbn?: string | null;
+  /**
+   * Colección editorial a la que pertenece la pieza, si corresponde.
+   */
+  coleccion?: string | null;
+  /**
+   * Información de edición registrada para la pieza.
+   */
+  edicion?: string | null;
+  /**
+   * Lugar de impresión indicado en el registro.
+   */
+  lugar_impresion?: string | null;
+  /**
+   * Año de impresión; puede quedar vacío si no está informado.
+   */
+  anio_impresion?: number | null;
+  /**
+   * Temas asociados a la pieza. La selección múltiple permite limpiar etiquetas compuestas del sistema viejo.
+   */
+  temas: (string | Tema)[];
+  /**
+   * Idioma principal de la pieza, elegido de la lista administrable de idiomas.
+   */
+  idioma: string | Idioma;
+  /**
+   * Formato físico de la pieza, elegido de la lista administrable de soportes.
+   */
+  soporte: string | Soporte;
+  /**
+   * Enlace externo relacionado con la pieza, si existe.
+   */
+  enlace?: string | null;
+  /**
+   * Primera observación o nota interna sobre la pieza.
+   */
+  notas?: string | null;
+  /**
+   * Segunda nota heredada, conservada por separado para no descartar información.
+   */
+  notas2?: string | null;
+  /**
+   * Si está marcado, la pieza solo puede consultarse en la biblioteca.
+   */
+  no_prestable?: boolean | null;
+  /**
+   * Marca una pieza retirada del inventario sin borrar su ficha ni su historial.
+   */
+  dado_de_baja?: boolean | null;
+  /**
+   * Indica si la pieza tiene una lista de espera activa.
+   */
+  en_lista_espera?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Etiquetas temáticas usadas para clasificar y filtrar los materiales del catálogo.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "temas".
+ */
+export interface Tema {
+  id: string;
+  /**
+   * Nombre único del tema que se mostrará al clasificar materiales.
+   */
+  nombre: string;
+  /**
+   * Permite dejar de ofrecer el tema sin quitarlo de materiales ya clasificados.
+   */
+  activo?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Lista de formatos físicos disponibles para clasificar cada material.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "soportes".
+ */
+export interface Soporte {
+  id: string;
+  /**
+   * Nombre único del soporte, por ejemplo libro, revista o DVD.
+   */
+  nombre: string;
+  /**
+   * Permite dejar de ofrecer el soporte sin cambiar materiales que ya lo usan.
+   */
+  activo?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Movimientos de préstamo de materiales a socios, con su estado y fechas para conservar el historial.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "prestamos".
+ */
+export interface Prestamo {
+  id: string;
+  /**
+   * Pieza física entregada en este préstamo.
+   */
+  material: string | Materiale;
+  /**
+   * Socio responsable del préstamo. El socio puede no estar vinculado aún a un ciudadano externo.
+   */
+  socio: string | Socio;
+  /**
+   * Fecha en que se entregó el material al socio.
+   */
+  fecha_prestamo: string;
+  /**
+   * Fecha límite prevista para devolver el material.
+   */
+  fecha_vencimiento: string;
+  /**
+   * Situación actual del movimiento. Los préstamos abiertos vencidos permanecen como prestados.
+   */
+  estado: 'prestado' | 'devuelto' | 'anulado';
+  /**
+   * Fecha efectiva de devolución; queda vacía si no se conoce o sigue prestado.
+   */
+  fecha_devolucion?: string | null;
+  /**
+   * Cantidad de veces que se extendió el vencimiento del préstamo.
+   */
+  renovaciones?: number | null;
+  /**
+   * Observaciones sobre este movimiento de préstamo.
+   */
+  notas?: string | null;
+  /**
+   * Usuario del sistema que registró el préstamo, si está disponible.
+   */
+  creado_por?: (string | null) | User;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Personas habilitadas como socios y su vínculo opcional con el padrón externo de ciudadanos.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "socios".
+ */
+export interface Socio {
+  id: string;
+  /**
+   * Documento normalizado, sin puntos ni ceros iniciales. La unicidad parcial queda pendiente para admitir socios legados sin DNI.
+   */
+  dni?: string | null;
+  /**
+   * Identificador interno del socio en el sistema viejo; no es un DNI.
+   */
+  numero_socio_legado?: number | null;
+  /**
+   * Identificador del ciudadano en la instancia externa de Payload, si ya fue vinculado.
+   */
+  ciudadano_id?: string | null;
+  /**
+   * Indica si el registro proviene del sistema viejo o fue creado en el sistema nuevo.
+   */
+  origen: 'legado' | 'nuevo';
+  /**
+   * Apellido del socio, conservado en este registro aunque cambie el dato externo.
+   */
+  apellido: string;
+  /**
+   * Nombre del socio, conservado en este registro aunque cambie el dato externo.
+   */
+  nombre: string;
+  /**
+   * Clasificación heredada A/P; sus reglas de préstamo se definirán después.
+   */
+  tipo: 'A' | 'P';
+  /**
+   * Grupo fijo del socio; los valores escolares heredados se normalizan al migrar.
+   */
+  grupo: 'VECINO' | 'VECINA' | 'DOCENTE';
+  /**
+   * Observaciones internas sobre el socio.
+   */
+  notas?: string | null;
+  /**
+   * Indica si el socio puede operar. Desactivarlo conserva sus préstamos e historial.
+   */
+  activo?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -167,10 +433,35 @@ export interface PayloadKv {
  */
 export interface PayloadLockedDocument {
   id: string;
-  document?: {
-    relationTo: 'users';
-    value: string | User;
-  } | null;
+  document?:
+    | ({
+        relationTo: 'idiomas';
+        value: string | Idioma;
+      } | null)
+    | ({
+        relationTo: 'materiales';
+        value: string | Materiale;
+      } | null)
+    | ({
+        relationTo: 'prestamos';
+        value: string | Prestamo;
+      } | null)
+    | ({
+        relationTo: 'socios';
+        value: string | Socio;
+      } | null)
+    | ({
+        relationTo: 'soportes';
+        value: string | Soporte;
+      } | null)
+    | ({
+        relationTo: 'temas';
+        value: string | Tema;
+      } | null)
+    | ({
+        relationTo: 'users';
+        value: string | User;
+      } | null);
   globalSlug?: string | null;
   user: {
     relationTo: 'users';
@@ -212,6 +503,101 @@ export interface PayloadMigration {
   batch?: number | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "idiomas_select".
+ */
+export interface IdiomasSelect<T extends boolean = true> {
+  nombre?: T;
+  activo?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "materiales_select".
+ */
+export interface MaterialesSelect<T extends boolean = true> {
+  numero_registro?: T;
+  fecha_alta?: T;
+  signatura?: T;
+  titulo?: T;
+  autor?: T;
+  autor2?: T;
+  omr?: T;
+  editorial?: T;
+  isbn?: T;
+  coleccion?: T;
+  edicion?: T;
+  lugar_impresion?: T;
+  anio_impresion?: T;
+  temas?: T;
+  idioma?: T;
+  soporte?: T;
+  enlace?: T;
+  notas?: T;
+  notas2?: T;
+  no_prestable?: T;
+  dado_de_baja?: T;
+  en_lista_espera?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "prestamos_select".
+ */
+export interface PrestamosSelect<T extends boolean = true> {
+  material?: T;
+  socio?: T;
+  fecha_prestamo?: T;
+  fecha_vencimiento?: T;
+  estado?: T;
+  fecha_devolucion?: T;
+  renovaciones?: T;
+  notas?: T;
+  creado_por?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "socios_select".
+ */
+export interface SociosSelect<T extends boolean = true> {
+  dni?: T;
+  numero_socio_legado?: T;
+  ciudadano_id?: T;
+  origen?: T;
+  apellido?: T;
+  nombre?: T;
+  tipo?: T;
+  grupo?: T;
+  notas?: T;
+  activo?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "soportes_select".
+ */
+export interface SoportesSelect<T extends boolean = true> {
+  nombre?: T;
+  activo?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "temas_select".
+ */
+export interface TemasSelect<T extends boolean = true> {
+  nombre?: T;
+  activo?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

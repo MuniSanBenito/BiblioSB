@@ -4,6 +4,12 @@ import path from 'path'
 import { buildConfig } from 'payload'
 import sharp from 'sharp'
 import { fileURLToPath } from 'url'
+import { IdiomasCollection } from './collections/Idiomas'
+import { MaterialesCollection } from './collections/Materiales'
+import { PrestamosCollection } from './collections/Prestamos'
+import { SociosCollection } from './collections/Socios'
+import { SoportesCollection } from './collections/Soportes'
+import { TemasCollection } from './collections/Temas'
 import { UsersCollection } from './collections/Users'
 
 const filename = fileURLToPath(import.meta.url)
@@ -19,7 +25,15 @@ export default buildConfig({
       providers: ['/context/admin-guard-provider#AdminGuardProvider'],
     },
   },
-  collections: [UsersCollection],
+  collections: [
+    IdiomasCollection,
+    MaterialesCollection,
+    PrestamosCollection,
+    SociosCollection,
+    SoportesCollection,
+    TemasCollection,
+    UsersCollection,
+  ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
